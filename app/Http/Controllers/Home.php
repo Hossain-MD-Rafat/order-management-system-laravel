@@ -29,8 +29,6 @@ class Home extends Controller
         $details = json_decode($res);
         $details = $details->result->item_detail->desc_content;
 
-        //print_r();
-
         $pd = array(
             "title" => $title,
             "price" => $price,
@@ -38,25 +36,13 @@ class Home extends Controller
             "details" => $details
         );
 
-        return view('templates.public');
+        // $url1 = 'https://item.taobao.com/item.htm?spm=a230r.1.999.182.61e8523c3oSY26&id=650085739344&ns=1#detail';
+
+        // $page1 = $client->request('GET', $url1);
+        // $a = $page1->filter('.tb-icon')->text();
+        // print_r($a);
 
 
-        //$url = 'https://item.taobao.com/item.htm?spm=a230r.1.999.182.61e8523c3oSY26&id=650085739344&ns=1#detail';
-
-
-
-        // echo "<pre>";
-        // print_r($page);
-
-
-        //$sales = $page->filterXPath('//div[@class="item-wrap"]/*')->nodeName();
-        //print_r($name);
-        //print_r($price);
-        // $page->filter('#maincounter-wrap')->each(function ($item) {
-        //     $this->results[$item->filter('h1')->text()] = $item->filter('.maincounter-number')->text();
-        // });
-
-        // $data = $this->results;
-        // return view('scraper')->with('data', $data);
+        return view('home');
     }
 }
