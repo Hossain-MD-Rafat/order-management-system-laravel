@@ -25,7 +25,7 @@
             <div class="col-md-4">
                 <img src="{{ asset('media/images/logo.png') }}" alt="" class="logo">
             </div>
-            <div class="col-md-4 offset-4 nav-menu">
+            <div class="col-md-4 offset-md-4 nav-menu">
                 <div class="nav-item">Home</div>
                 <div class="nav-item">About</div>
                 <div class="nav-item account">Account <i class="fas fa-user"></i></div>

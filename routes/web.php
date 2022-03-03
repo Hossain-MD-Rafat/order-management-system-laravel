@@ -25,3 +25,4 @@ use Illuminate\Support\Facades\Route;
 //public route
 
 Route::get('/', [Home::class, 'index']);
+Route::post('producturl', [Home::class, 'productsearch']);
