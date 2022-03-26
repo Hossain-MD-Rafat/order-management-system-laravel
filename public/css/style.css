@@ -21,7 +21,6 @@ p {
 .logo {
     width: 35%;
 }
-
 .nav-menu {
     display: flex;
     justify-content: space-between;
@@ -237,12 +236,16 @@ input[type="number"]::-webkit-outer-spin-button {
     background: #afcb07;
     color: white;
     font-size: 16px;
-    line-height: 32px;
+    line-height: 40px;
     border-radius: 4px;
     letter-spacing: 0.7px;
-    font-weight: 200;
+    font-weight: 400;
+    text-transform: capitalize;
+    text-decoration: none;
 }
-
+.place-order:hover {
+    color: white;
+}
 .single-product-image {
     width: 16%;
     margin-bottom: 15px;
@@ -259,4 +262,46 @@ input[type="number"]::-webkit-outer-spin-button {
 #quantity,
 #days {
     border-radius: 10px;
+}
+.cart {
+    position: relative;
+}
+.cart-item {
+    position: absolute;
+    background: #afcb07;
+    padding: 2px 7px;
+    font-size: 10px;
+    border-radius: 50%;
+    top: -14px;
+    right: -16px;
+    color: white;
+}
+.cart-pd-image {
+    width: 35%;
+    padding: 10px;
+}
+.cart-pd-body {
+    width: 65%;
+    padding: 10px 20px;
+}
+.cart-pd-body .product-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 24px;
+}
+.cart-pd-body .price {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: left;
+}
+.total-items {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 60px;
+}
+.total-price {
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 70px;
+    margin-left: 10px;
 }

@@ -11,6 +11,7 @@ class Home extends Controller
 {
     public function index()
     {
+        print_r(session('cart'));
         return view('home');
     }
     public function productSearch(Request $req)
@@ -109,11 +110,14 @@ class Home extends Controller
     {
 
         $validator = Validator::make($req->all(), [
-            'name' => 'required',
+            'title' => 'required',
             'url' => 'required',
             'price' => 'required',
             'quantity' => 'required|numeric|gt:0',
             'delivery_days' => 'required|numeric|gt:0',
+            'site' => 'required',
+            'banner' => 'required',
+            'details' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -124,15 +128,12 @@ class Home extends Controller
         $product = $req->post();
         unset($product['_token']);
         $cart = [];
-        print_r(session('cart'));
         if (session()->has('cart')) {
             $cart = session('cart');
-            echo 1;
         }
         array_push($cart, $product);
         session()->put('cart', $cart);
-        print_r(session('cart'));
-        exit;
+        return redirect('cart');
     }
 }
 

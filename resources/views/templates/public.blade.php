@@ -33,7 +33,11 @@
             <div class="col-md-4 offset-md-4 nav-menu">
                 <div class="nav-item">Home</div>
                 <div class="nav-item">About</div>
-                <div class="nav-item">Cart <i class="fas fa-shopping-cart"></i></div>
+                <div class="nav-item cart">Cart <i class="fas fa-shopping-cart"></i>
+                    @if (session()->has('cart'))
+                        <div class="cart-item">{{ sizeof(session('cart')) }}</div>
+                    @endif
+                </div>
                 <div class="nav-item account">Account <i class="fas fa-user"></i></div>
             </div>
         </div>

@@ -38,8 +38,11 @@
                         <form action="{{ url('addtocart') }}" method="post">
                             @csrf
                             <input type="hidden" name="url" value="{{ $product->url }}">
-                            <input type="hidden" name="name" value="{{ $product->title }}">
+                            <input type="hidden" name="title" value="{{ $product->title }}">
                             <input type="hidden" name="price" value="{{ $product->price }}">
+                            <input type="hidden" name="banner" value="{{ $product->banner }}">
+                            <input type="hidden" name="details" value="{{ json_encode($product->details) }}">
+                            <input type="hidden" name="site" value="{{ $product->site }}">
                             <div class="form-group mt-4">
                                 <label for="">Quantity</label>
                                 <div class="d-flex">
