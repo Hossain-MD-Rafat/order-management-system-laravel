@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Home;
+use App\Http\Controllers\user\UserProfile;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +26,9 @@ use Illuminate\Support\Facades\Route;
 //public route
 
 Route::get('/', [Home::class, 'index']);
+Route::get('/success', [Home::class, 'success']);
+Route::get('/payment', [Home::class, 'payment']);
+Route::get('', [Home::class, 'payment']);
+Route::get('/user/{userid}', [UserProfile::class, 'profile']);
 Route::post('producturl', [Home::class, 'productsearch']);
+Route::post('addtocart', [Home::class, 'addtocart']);
