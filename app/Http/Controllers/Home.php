@@ -11,7 +11,8 @@ class Home extends Controller
 {
     public function index()
     {
-        print_r(session('cart'));
+        //print_r(session('cart'));
+        //session()->forget('cart');
         return view('home');
     }
     public function productSearch(Request $req)
@@ -31,6 +32,9 @@ class Home extends Controller
             $apiurl = "https://thor.weidian.com/detail/getDetailDesc/1.0?param=%7B%22vItemId%22%3A%22{productid}%22%7D&wdtoken=88533b22&_=1644727939067";
             $weidian_product_details = str_replace('{productid}', $product_id, $apiurl);
 
+            $sku = "https://thor.weidian.com/detail/getItemSkuInfo/1.0?param=%7B%22itemId%22%3A%22{productid}%22%7D&wdtoken=e5739b54&_=1648583787602";
+            $weidian_product_options = str_replace('{productid}', $product_id, $sku);
+
             try {
                 $page = $client->request('GET', $url);
                 $price = $page->filter('.cur-price')->text();
@@ -38,17 +42,44 @@ class Home extends Controller
                 $image = $page->filter('.first-img')->attr('src');
                 $image = explode('.webp?', $image);
 
+                $client->request('GET', $weidian_product_options);
+                $options = $client->getResponse()->getContent();
+                $options = json_decode($options);
+                $options = $options->result->attrList;
+                $color = [];
+                $size = [];
+
+                foreach ($options as $item) {
+                    if ($item->attrTitle == "颜色") {
+                        $color = $item->attrValues;
+                    }
+                    if ($item->attrTitle == "尺寸" || $item->attrTitle == "尺码") {
+                        $size = $item->attrValues;
+                    }
+                }
+
                 $client->request('GET', $weidian_product_details);
                 $res = $client->getResponse()->getContent();
                 $details = json_decode($res);
                 $details = $details->result->item_detail->desc_content;
+                $other_images = [];
+                $i = 0;
+                foreach ($details as $item) {
+                    if (array_key_exists('url', $item)) {
+                        $other_images[$i] = $item->url;
+                        $i += 1;
+                    }
+                }
+
                 $pd = array(
                     "title" => $title,
                     "price" => $price,
                     "banner" => $image[0],
-                    "details" => $details,
+                    "other_images" => $other_images,
                     "site" => 1,
-                    "url" => $url
+                    "url" => $url,
+                    "color" => $color,
+                    "size" => $size
                 );
                 session(['product' => (object)$pd]);
                 return view('product_view', array('product' => (object)$pd));
@@ -135,6 +166,9 @@ class Home extends Controller
         session()->put('cart', $cart);
         return redirect('cart');
     }
+    public function placeorder()
+    {
+    }
 }
 
 //$url = 'https://shop317730822.v.weidian.com/item.html?itemID=4412176101&wfr=c&ifr=itemdetail&spider_token=a986&share_relation=39c5aa4489fba769_1459959101_1';
@@ -151,4 +185,6 @@ class Home extends Controller
 
 // $page1 = $client->request('GET', $url1);
 // $a = $page1->filter('.tb-icon')->text();
-// print_r($a);
+// print_r($a); 
+
+//https://thor.weidian.com/detail/getItemSkuInfo/1.0?param=%7B%22itemId%22%3A%224474626851%22%7D&wdtoken=e5739b54&_=1648583787602

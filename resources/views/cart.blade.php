@@ -39,7 +39,6 @@
 
                             <a href="checkout" class="place-order" type="submit">Proceed To Checkout</a>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>

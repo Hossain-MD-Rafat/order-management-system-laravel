@@ -1,21 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
-    {{-- font awesome --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
 
-    <!-- Optional JavaScript; choose one of the two! -->
-    <script script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
-    </script>
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- style --}}
     <link rel="stylesheet" href="{{ url('css/style.css') }}">
@@ -24,34 +26,113 @@
 </head>
 
 <body>
-
-    <header class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <img src="{{ asset('media/images/logo.png') }}" alt="" class="logo">
+    <header class="container-fluid">
+        <div class="content-area nav">
+            <div class="logo">
+                <img class="w-50" src="images/bbabae logo.png" alt="" />
             </div>
-            <div class="col-md-4 offset-md-4 nav-menu">
-                <div class="nav-item">Home</div>
-                <div class="nav-item">About</div>
-                <div class="nav-item cart">Cart <i class="fas fa-shopping-cart"></i>
+
+            <ul class="nav-menu">
+                <li>
+                    <input type="text" placeholder="search" class="menu-search" />
+                </li>
+                <li><a href="">Login</a></li>
+                <li><a href="">Help</a></li>
+                <li class="nav-item cart">
+                    <a href=""><i class="fas fa-shopping-bag"></i></a>
                     @if (session()->has('cart'))
                         <div class="cart-item">{{ sizeof(session('cart')) }}</div>
                     @endif
-                </div>
-                <div class="nav-item account">Account <i class="fas fa-user"></i></div>
-            </div>
+                </li>
+            </ul>
         </div>
+        <div class="mobile-nav"></div>
     </header>
     <section id="main">
         @yield('content-area')
     </section>
-    <footer>
-        <div class="bg-dark text-white text-center p-1">bbabae copyright © 2022</div>
+    
+    <!-- footer -->
+    <footer class="container-fliud">
+        <div class="content-area">
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="footer-menu">
+                        <li class="footer-menu-heading">Help</li>
+                        <li class="footer-menu-item">
+                            <a href="">Shop at bbabae.com</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">Product</a></li>
+                        <li class="footer-menu-item"><a href="">payment</a></li>
+                        <li class="footer-menu-item"><a href="">shipping</a></li>
+                        <li class="footer-menu-item">
+                            <a href="">exchanges and return</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">my account</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="footer-menu">
+                        <li class="footer-menu-heading">Help</li>
+                        <li class="footer-menu-item">
+                            <a href="">Shop at bbabae.com</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">Product</a></li>
+                        <li class="footer-menu-item"><a href="">payment</a></li>
+                        <li class="footer-menu-item"><a href="">shipping</a></li>
+                        <li class="footer-menu-item">
+                            <a href="">exchanges and return</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">my account</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="footer-menu">
+                        <li class="footer-menu-heading">Help</li>
+                        <li class="footer-menu-item">
+                            <a href="">Shop at bbabae.com</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">Product</a></li>
+                        <li class="footer-menu-item"><a href="">payment</a></li>
+                        <li class="footer-menu-item"><a href="">shipping</a></li>
+                        <li class="footer-menu-item">
+                            <a href="">exchanges and return</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">my account</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="footer-menu">
+                        <li class="footer-menu-heading">Help</li>
+                        <li class="footer-menu-item">
+                            <a href="">Shop at bbabae.com</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">Product</a></li>
+                        <li class="footer-menu-item"><a href="">payment</a></li>
+                        <li class="footer-menu-item"><a href="">shipping</a></li>
+                        <li class="footer-menu-item">
+                            <a href="">exchanges and return</a>
+                        </li>
+                        <li class="footer-menu-item"><a href="">my account</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </footer>
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('.counter').counterUp({
+                delay: 10,
+                time: 1200
+            });
+        });
     </script>
 </body>
 
