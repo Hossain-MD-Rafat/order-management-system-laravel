@@ -10,9 +10,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
+    {{-- Jquery --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+
+    {{-- meta --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -36,7 +40,7 @@
                 <li>
                     <input type="text" placeholder="search" class="menu-search" />
                 </li>
-                <li><a href="">Login</a></li>
+                <li><a href="{{url('login')}}">Login</a></li>
                 <li><a href="">Help</a></li>
                 <li class="nav-item cart">
                     <a href=""><i class="fas fa-shopping-bag"></i></a>
@@ -51,7 +55,7 @@
     <section id="main">
         @yield('content-area')
     </section>
-    
+
     <!-- footer -->
     <footer class="container-fliud">
         <div class="content-area">

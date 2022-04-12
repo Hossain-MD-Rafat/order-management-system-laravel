@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Goutte\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class Home extends Controller
@@ -139,35 +140,91 @@ class Home extends Controller
     }
     public function addtocart(Request $req)
     {
-
-        $validator = Validator::make($req->all(), [
-            'title' => 'required',
-            'url' => 'required',
-            'price' => 'required',
-            'quantity' => 'required|numeric|gt:0',
-            'delivery_days' => 'required|numeric|gt:0',
-            'site' => 'required',
-            'banner' => 'required',
-            'details' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            $product = session('product');
-            return view('product_view', array('product' => $product, 'error' => "Quantuty and delivery days should be a valid number"));
+        if ($req->post('addtocart')) {
+            $product = $req->post();
+            $product['id'] = strtotime("now");
+            $product['quantity'] = 1;
+            $cart = [];
+            if (session()->has('cart')) {
+                $cart = session('cart');
+            }
+            array_push($cart, $product);
+            session()->put('cart', $cart);
+            return response()->json(["status" => 200]);
+        } else {
+            return response()->json(['status' => 404]);
         }
-
-        $product = $req->post();
-        unset($product['_token']);
-        $cart = [];
-        if (session()->has('cart')) {
-            $cart = session('cart');
-        }
-        array_push($cart, $product);
-        session()->put('cart', $cart);
-        return redirect('cart');
     }
-    public function placeorder()
+    public function deleteitemfromcart(Request $req)
     {
+        if ($req->post('delete')) {
+            $cart = session('cart');
+            foreach ($cart as $key => $item) {
+                if ($item['id'] == $req->post('id')) {
+                    unset($cart[$key]);
+                    session()->put('cart', $cart);
+                    return response()->json(['status' => 200]);
+                }
+            }
+        }
+        return response()->json(['status' => 404]);
+    }
+    public function cartquantity(Request $req)
+    {
+        if ($req->post('quantitychange')) {
+            $cart = session('cart');
+            foreach ($cart as $key => $item) {
+                if ($item['id'] == $req->post('id')) {
+                    $cart[$key]['quantity'] = $req->post('quantity');
+                    session()->put('cart', $cart);
+                    $res['status'] = 200;
+                    return response()->json(['status' => 200]);
+                }
+            }
+        }
+        return response()->json(['status' => 404]);
+    }
+    public function userlogin(Request $req)
+    {
+        if ($req->post('login')) {
+            $validator = Validator::make($req->all(), [
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+            
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+                return redirect()->back()->withErrors($errors);
+            }
+        }
+    }
+    public function userregistration(Request $req)
+    {
+        if ($req->post('register')) {
+            $validator = Validator::make($req->all(), [
+                'email' => 'required|email',
+                'name' => 'required|min:2',
+                'password' => 'required|min:6',
+            ]);
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+                return redirect()->back()->withErrors($errors);
+            } else {
+                try {
+                    $query = DB::table('users')->insert([
+                        "email" => $req->post('email'),
+                        "name" => $req->post('name'),
+                        "password" => bcrypt($req->post('password')),
+                        "username" => $req->post('name') . strtotime("now")
+                    ]);
+                    if ($query) {
+                        return redirect('/login')->with('login_msg', 'You have successfully registered!');
+                    }
+                } catch (Exception $exception) {
+                    return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
+                }
+            }
+        }
     }
 }
 
@@ -188,3 +245,19 @@ class Home extends Controller
 // print_r($a); 
 
 //https://thor.weidian.com/detail/getItemSkuInfo/1.0?param=%7B%22itemId%22%3A%224474626851%22%7D&wdtoken=e5739b54&_=1648583787602
+
+// $validator = Validator::make($req->all(), [
+        //     'title' => 'required',
+        //     'url' => 'required',
+        //     'price' => 'required',
+        //     'quantity' => 'required|numeric|gt:0',
+        //     'delivery_days' => 'required|numeric|gt:0',
+        //     'site' => 'required',
+        //     'banner' => 'required',
+        //     'details' => 'required'
+        // ]);
+
+        // if ($validator->fails()) {
+        //     $product = session('product');
+        //     return view('product_view', array('product' => $product, 'error' => "Quantuty and delivery days should be a valid number"));
+        // }

@@ -36,8 +36,21 @@ Route::get('cart', function () {
     return view('cart');
 });
 
+Route::post('cartitemdelete', [Home::class, 'deleteitemfromcart']);
+Route::post('cartquantity', [Home::class, 'cartquantity']);
 
-Route::group(["middleware" => "web"], function () {
+
+Route::get('login', function () {
+    return view('login');
+});
+Route::post('userlogin', [Home::class, 'userlogin']);
+
+Route::get('register', function () {
+    return view('register');
+});
+Route::post('userregistration', [Home::class, 'userregistration']);
+
+Route::group(["middleware" => "user"], function () {
     Route::get('/user/{userid}', [UserProfile::class, 'profile']);
     Route::get('checkout', function () {
         return view('checkout');
