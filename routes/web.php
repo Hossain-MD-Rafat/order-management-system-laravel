@@ -51,7 +51,15 @@ Route::get('register', function () {
 Route::post('userregistration', [Home::class, 'userregistration']);
 
 Route::group(["middleware" => "user"], function () {
-    Route::get('/user/{userid}', [UserProfile::class, 'profile']);
+    Route::get('/user', [UserProfile::class, 'profile']);
+    Route::get('user/account', function () {
+        return view('user.account');
+    });
+    Route::post('user/changeaccountinfo', [UserProfile::class, 'changeaccountinfo']);
+    
+    Route::get('user/address', [UserProfile::class, 'address']);
+    Route::get('user/addressform/{id?}', [UserProfile::class, 'addressform']);
+    Route::post('user/addaddress', [UserProfile::class, 'addaddress']);
     Route::get('checkout', function () {
         return view('checkout');
     });

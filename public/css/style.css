@@ -14,6 +14,9 @@ h6 {
 p {
     font-family: "Raleway", sans-serif;
 }
+.text-uppercase {
+    text-transform: uppercase;
+}
 .horizontal-center {
     margin: 0 auto;
 }
@@ -626,13 +629,13 @@ login
     pointer-events: none;
 }
 .login-input:focus ~ label,
-.login-input:valid ~ label {
+.login-input:required:valid ~ label {
     top: -10px;
     left: 0;
     font-size: 14px;
 }
 .login-input:focus,
-.login-input:valid {
+.login-input:required:valid {
     border-bottom: 2px solid #222;
 }
 .new-user {
@@ -642,6 +645,93 @@ login
 }
 .new-user a {
     color: #222;
+}
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    cursor: pointer;
+}
+.signout-btn {
+    color: #222;
+    text-decoration: none;
+    margin-top: 40px;
+    display: block;
+    width: fit-content;
+    border: 1px solid #222;
+    padding: 8px 100px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+.signout-btn:hover {
+    color: #fff;
+    background-color: #222;
+}
+.phone-prefix {
+    font-size: 12px;
+    color: #666;
+}
+.account-home {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+.address-item {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.address-item h4 {
+    font-size: 18px;
+    color: #222;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+.address-item .street {
+    font-size: 16px;
+    color: #222;
+    font-weight: 600;
+    line-height: 24px;
+    text-transform: uppercase;
+}
+.address-item span {
+    font-size: 14px;
+    color: #666;
+    line-height: 24px;
+    text-transform: uppercase;
+}
+.address-action {
+    position: relative;
+}
+.actions {
+    position: absolute;
+    right: 0px;
+    width: 110px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 5px 5px 19px #7d7d7d, -5px -5px 19px #ffffff;
+    padding: 10px 0px;
+    text-align: center;
+}
+.actions-item {
+    text-decoration: none;
+    width: 100%;
+    display: block;
+    padding: 8px 0px;
+    cursor: pointer;
+}
+.actions-item:hover {
+    background-color: #bebebe;
+}
+.form-group {
+    display: flex;
+    justify-content: space-between;
+}
+.w-48 {
+    width: 48%;
 }
 /*
 ##################################################

@@ -6,6 +6,7 @@ use Exception;
 use Goutte\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class Home extends Controller
@@ -191,10 +192,26 @@ class Home extends Controller
                 'email' => 'required',
                 'password' => 'required',
             ]);
-            
+
             if ($validator->fails()) {
                 $errors = $validator->errors();
                 return redirect()->back()->withErrors($errors);
+            } else {
+                $user = DB::table('users')
+                    ->where('email', '=', $req->post('email'))
+                    ->orWhere('username', '=', $req->post('email'))
+                    ->get();
+                if (Hash::check($req->post('password'), $user[0]->password)) {
+                    $user = array(
+                        'user_id' => $user[0]->id,
+                        'username' => $user[0]->username,
+                        'email' => $user[0]->email,
+                    );
+                    session()->put('loggedin_user', $user);
+                    return redirect('/user');
+                } else {
+                    return redirect()->back()->withErrors(['error' => 'User not found!']);
+                }
             }
         }
     }
