@@ -240,7 +240,7 @@
                         </div>
 
                         <button type="submit" name="submit" id="submit" value="Submit"
-                            class="btn btn-default btn-full">Submit</button><!-- Send Button -->
+                            class="signout-btn w-100">Send</button><!-- Send Button -->
 
                     </form>
                     <!-- Contact Form end -->

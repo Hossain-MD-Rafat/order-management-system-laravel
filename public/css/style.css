@@ -14,6 +14,9 @@ h6 {
 p {
     font-family: "Raleway", sans-serif;
 }
+header {
+    background-color: #222;
+}
 .text-uppercase {
     text-transform: uppercase;
 }
@@ -72,14 +75,16 @@ html {
 }
 .nav-menu li a {
     text-decoration: none;
-    color: #555555;
+    color: #ffffff;
     font-size: 16px;
     line-height: 30px;
 }
 .menu-search {
     border: none;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid white;
     outline: none;
+    color: white;
+    background: transparent;
 }
 section {
     padding: 50px 0px;
@@ -424,8 +429,8 @@ footer
 ##################################################
 */
 footer {
-    padding: 40px 0px;
-    background: #666;
+    padding: 40px 0px 0px;
+    background: #b1b1b1;
     color: #fff;
 }
 .footer-menu li {
@@ -440,6 +445,7 @@ footer {
     line-height: 30px;
     text-transform: uppercase;
     text-decoration: none;
+    font-size: 12px;
 }
 
 /*
@@ -454,7 +460,6 @@ product-view
     width: 8%;
 }
 .option-label {
-    border-top: 1px solid;
     border-bottom: 1px solid;
     font-size: 18px;
 }
@@ -552,6 +557,9 @@ input[type="number"] {
     font-size: 10px;
     color: #808080;
 }
+.fs-12 {
+    font-size: 12px;
+}
 /*
 ##################################################
 user-profile
@@ -589,54 +597,6 @@ user-profile
     color: #808080;
     font-weight: 300;
     text-transform: uppercase;
-}
-
-/*
-##################################################
-login
-##################################################
-*/
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.login-container form {
-    width: 30%;
-}
-.login-container form h2 {
-    font-size: 20px;
-    margin-bottom: 25px;
-    font-weight: 700;
-}
-.login-input {
-    border: none;
-    border-bottom: 1px solid #222;
-    width: 100%;
-    outline: none;
-    margin: 10px 0px;
-}
-.login-form-group {
-    position: relative;
-    margin-top: 20px;
-}
-.login-form-group label {
-    position: absolute;
-    font-size: 12px;
-    top: 10px;
-    left: 0px;
-    transition: 0.5s;
-    pointer-events: none;
-}
-.login-input:focus ~ label,
-.login-input:required:valid ~ label {
-    top: -10px;
-    left: 0;
-    font-size: 14px;
-}
-.login-input:focus,
-.login-input:required:valid {
-    border-bottom: 2px solid #222;
 }
 .new-user {
     font-size: 16px;
@@ -726,13 +686,68 @@ login
 .actions-item:hover {
     background-color: #bebebe;
 }
-.form-group {
+.address-form-group {
     display: flex;
     justify-content: space-between;
 }
 .w-48 {
     width: 48%;
 }
+.select-shipping-address {
+    padding: 10px 0px;
+    border: 1px solid grey;
+    text-align: center;
+    font-size: 30px;
+}
+
+/*
+##################################################
+login
+##################################################
+*/
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-container form {
+    width: 30%;
+}
+.login-container form h2 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+.login-input {
+    border: none;
+    border-bottom: 1px solid #222;
+    width: 100%;
+    outline: none;
+    margin: 10px 0px;
+}
+.login-form-group {
+    position: relative;
+    margin-top: 20px;
+}
+.login-form-group label {
+    position: absolute;
+    font-size: 12px;
+    top: 10px;
+    left: 0px;
+    transition: 0.5s;
+    pointer-events: none;
+}
+.login-input:focus ~ label,
+.login-input:not(:placeholder-shown) ~ label {
+    top: -10px;
+    left: 0;
+    font-size: 14px;
+}
+.login-input:focus,
+.login-input:not(:placeholder-shown) {
+    border-bottom: 2px solid #222;
+}
+
 /*
 ##################################################
 admin

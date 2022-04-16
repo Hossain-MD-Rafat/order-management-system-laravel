@@ -56,11 +56,18 @@ Route::group(["middleware" => "user"], function () {
         return view('user.account');
     });
     Route::post('user/changeaccountinfo', [UserProfile::class, 'changeaccountinfo']);
-    
+
+    Route::get('user/shipping', function () {
+        return view('user.shippingaddress');
+    });
     Route::get('user/address', [UserProfile::class, 'address']);
     Route::get('user/addressform/{id?}', [UserProfile::class, 'addressform']);
     Route::post('user/addaddress', [UserProfile::class, 'addaddress']);
     Route::get('checkout', function () {
         return view('checkout');
     });
+});
+
+Route::get('admin', function () {
+    return view('admin.dashboard');
 });

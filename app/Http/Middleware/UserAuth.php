@@ -16,7 +16,9 @@ class UserAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        echo "hello user";
+        if (is_null(session('loggedin_user'))) {
+            return redirect('login');
+        }
         return $next($request);
     }
 }

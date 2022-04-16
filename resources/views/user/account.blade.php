@@ -1,7 +1,7 @@
 @extends('templates.public')
 
 @section('content-area')
-    <section class="cart container p-0 pb-4">
+    <section class="cart container">
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 @if ($errors->any())
@@ -54,7 +54,7 @@
                                 @endif
                                 @csrf
                                 <div class="login-form-group mb-2">
-                                    <input type="text" required class="login-input" name="password">
+                                    <input type="password" required class="login-input" name="password" placeholder=" ">
                                     <label class="text-uppercase">Current Password</label>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-end mb-2">
@@ -63,7 +63,7 @@
                                         <span>+86</span>
                                     </div>
                                     <div class="login-form-group w-75">
-                                        <input type="number" required class="login-input mb-0" name="new_phone">
+                                        <input type="number" required class="login-input mb-0" name="new_phone" placeholder=" ">
                                         <label class="text-uppercase">new phone number</label>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                                         <span>+86</span>
                                     </div>
                                     <div class="login-form-group w-75">
-                                        <input type="number" required class="login-input mb-0" name="new_phone_again">
+                                        <input type="number" required class="login-input mb-0" name="new_phone_again" placeholder=" ">
                                         <label class="text-uppercase">repeat new phone number</label>
                                     </div>
                                 </div>
@@ -104,15 +104,15 @@
                                 @endif
                                 @csrf
                                 <div class="login-form-group">
-                                    <input type="password" required class="login-input" name="password">
+                                    <input type="password" required class="login-input" name="password" placeholder=" ">
                                     <label class="text-uppercase">Current Password</label>
                                 </div>
                                 <div class="login-form-group">
-                                    <input type="password" required class="login-input" name="new_password">
+                                    <input type="password" required class="login-input" name="new_password" placeholder=" ">
                                     <label class="text-uppercase">new Password</label>
                                 </div>
                                 <div class="login-form-group">
-                                    <input type="password" required class="login-input" name="new_password_again">
+                                    <input type="password" required class="login-input" name="new_password_again" placeholder=" ">
                                     <label class="text-uppercase">repeat new Password</label>
                                 </div>
                                 <button type="submit" name="password_change" value="true"

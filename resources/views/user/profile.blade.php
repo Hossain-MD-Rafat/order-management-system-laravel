@@ -1,7 +1,7 @@
 @extends('templates.public')
 
 @section('content-area')
-    <section class="cart container p-0 pb-4">
+    <section class="cart container">
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="profile-nav">
@@ -46,7 +46,7 @@
                                 <div><i class="fas fa-angle-right text-dark"></i></div>
                             </div>
                         </a>
-                        <a href="{{ url('/account') }}" class="profile-item">
+                        <a href="{{ url('user/account') }}" class="profile-item">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <span class="profile-item-heading">Account</span><span class="profile-item-body">Email,
@@ -55,7 +55,7 @@
                                 <div><i class="fas fa-angle-right text-dark"></i></div>
                             </div>
                         </a>
-                        <a href="" class="profile-item">
+                        <a href="{{ url('user/address') }}" class="profile-item">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <span class="profile-item-heading">Addresses</span><span

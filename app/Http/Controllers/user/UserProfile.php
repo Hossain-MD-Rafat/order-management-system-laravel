@@ -91,10 +91,13 @@ class UserProfile extends Controller
     }
     public function addressform($id = null)
     {
+        $address = [];
         if (!is_null($id)) {
-
+            $address = DB::table('address')
+                ->where('id', '=', $id)
+                ->get();
         }
-        return view('user.addressform', ['data' => ])
+        return view('user.addressform', ['address' => $address]);
     }
     public function addaddress(Request $req)
     {
@@ -126,13 +129,24 @@ class UserProfile extends Controller
                     'post_code' => $req->post('post_code'),
                     'phone' => $req->post('phone'),
                 );
-                $res = DB::table('address')->insert($data);
-                if ($res > 0) {
-                    return redirect('user/addresses');
+                $res = -1;
+
+                if ($req->post('id')) {
+                    $res = DB::table('address')
+                        ->where('id', '=', $req->post('id'))
+                        ->update($data);
+                } else {
+                    $res = DB::table('address')->insert($data);
+                }
+                if ($res >= 0) {
+                    return redirect('user/address');
                 } else {
                     return redirect()->back()->withErrors(['error' => 'Unable to save address now. Please try later']);
                 }
             }
         }
+    }
+    public function deleteaddress(){
+        
     }
 }

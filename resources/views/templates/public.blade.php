@@ -33,14 +33,21 @@
     <header class="container-fluid">
         <div class="content-area nav">
             <div class="logo">
-                <img class="w-50" src="images/bbabae logo.png" alt="" />
+                <a href="{{ url('/') }}">
+                    <img class="w-50" src="{{ url('/media/images/BBABAE_white.svg') }}" alt="bbabae logo" />
+                </a>
             </div>
 
             <ul class="nav-menu">
                 <li>
                     <input type="text" placeholder="search" class="menu-search" />
                 </li>
-                <li><a href="{{url('login')}}">Login</a></li>
+
+                @if (!is_null(session('loggedin_user')))
+                    <li><a href="{{ url('user') }}">{{ session('loggedin_user')['username'] }}</a></li>
+                @else
+                    <li><a href="{{ url('login') }}">Login</a></li>
+                @endif
                 <li><a href="">Help</a></li>
                 <li class="nav-item cart">
                     <a href=""><i class="fas fa-shopping-bag"></i></a>
@@ -52,17 +59,15 @@
         </div>
         <div class="mobile-nav"></div>
     </header>
-    <section id="main">
-        @yield('content-area')
-    </section>
+    @yield('content-area')
 
     <!-- footer -->
     <footer class="container-fliud">
         <div class="content-area">
             <div class="row">
                 <div class="col-md-3">
-                    <ul class="footer-menu">
-                        <li class="footer-menu-heading">Help</li>
+                    <ul class="footer-menu text-uppercase">
+                        <li class="footer-menu-heading text-uppercase">Help</li>
                         <li class="footer-menu-item">
                             <a href="">Shop at bbabae.com</a>
                         </li>
@@ -76,50 +81,37 @@
                     </ul>
                 </div>
                 <div class="col-md-3">
-                    <ul class="footer-menu">
-                        <li class="footer-menu-heading">Help</li>
+                    <ul class="footer-menu text-uppercase">
+                        <li class="footer-menu-heading text-uppercase">follow us</li>
                         <li class="footer-menu-item">
-                            <a href="">Shop at bbabae.com</a>
+                            <a href="">newsletter</a>
                         </li>
-                        <li class="footer-menu-item"><a href="">Product</a></li>
-                        <li class="footer-menu-item"><a href="">payment</a></li>
-                        <li class="footer-menu-item"><a href="">shipping</a></li>
-                        <li class="footer-menu-item">
-                            <a href="">exchanges and return</a>
-                        </li>
-                        <li class="footer-menu-item"><a href="">my account</a></li>
+                        <li class="footer-menu-item"><a href="">wechat</a></li>
+                        <li class="footer-menu-item"><a href="">weibo</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
-                    <ul class="footer-menu">
-                        <li class="footer-menu-heading">Help</li>
+                    <ul class="footer-menu text-uppercase">
+                        <li class="footer-menu-heading">Company</li>
                         <li class="footer-menu-item">
-                            <a href="">Shop at bbabae.com</a>
+                            <a href="">about us</a>
                         </li>
-                        <li class="footer-menu-item"><a href="">Product</a></li>
-                        <li class="footer-menu-item"><a href="">payment</a></li>
-                        <li class="footer-menu-item"><a href="">shipping</a></li>
+                        <li class="footer-menu-item"><a href="">join life</a></li>
+                        <li class="footer-menu-item"><a href="">offices</a></li>
+                        <li class="footer-menu-item"><a href="">stories</a></li>
                         <li class="footer-menu-item">
-                            <a href="">exchanges and return</a>
+                            <a href="">work with us</a>
                         </li>
-                        <li class="footer-menu-item"><a href="">my account</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
-                    <ul class="footer-menu">
-                        <li class="footer-menu-heading">Help</li>
-                        <li class="footer-menu-item">
-                            <a href="">Shop at bbabae.com</a>
-                        </li>
-                        <li class="footer-menu-item"><a href="">Product</a></li>
-                        <li class="footer-menu-item"><a href="">payment</a></li>
-                        <li class="footer-menu-item"><a href="">shipping</a></li>
-                        <li class="footer-menu-item">
-                            <a href="">exchanges and return</a>
-                        </li>
-                        <li class="footer-menu-item"><a href="">my account</a></li>
+                    <ul class="footer-menu text-uppercase">
+                        <li class="footer-menu-heading">Policies</li>
+                        <li class="footer-menu-item"><a href="">privacy policy</a></li>
+                        <li class="footer-menu-item"><a href="">purchase conditions</a></li>
                     </ul>
                 </div>
+                <p class="fs-12 mt-2 text-center text-uppercase text-dark">2022 © All right reserved.</p>
             </div>
         </div>
     </footer>
