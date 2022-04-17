@@ -1,11 +1,22 @@
 @extends('templates.public')
 @section('content-area')
     <section class="cart container">
-        <div class="d-none side-bar">
-            
+        <div class="address-side-bar">
+            <div class="text-right" role="button">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="address-item-select">
+                <h4>lorem</h4>
+                <span class="street">lorem</span><br>
+                <span>lorem</span><br>
+                <span>lorem</span><br>
+                <span>lorem</span><br>
+                <span>lorem</span><br>
+                <span>lorem</span><br>
+            </div>
         </div>
         <div class="row mb-5">
-            <h4 class="text-uppercase mb-4">Where do you want to recieve your order?</h4>
+            <h4 class="text-uppercase mb-4 shipping-title">Where do you want to recieve your order?</h4>
             <div class="col-md-2">
                 <div class="select-shipping-address">
                     <i class="fas fa-home"></i>
@@ -13,14 +24,14 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <div class="select-shipping-address">
+                <div class="select-shipping-address" id="other-address">
                     <i class="fab fa-intercom"></i>
                     <h6 class="text-uppercase">other</h6>
                 </div>
             </div>
         </div>
         <div class="row">
-            <h4 class="text-uppercase mb-4">items</h4>
+            <h4 class="text-uppercase mb-4 shipping-title">items</h4>
             @php
                 $total = 0;
             @endphp
@@ -46,6 +57,8 @@
         </div>
     </section>
     <script>
-
+        $('#other-address').click(function(e) {
+            $('.address-side-bar').toggleClass('side-bar-show');
+        });
     </script>
 @endsection

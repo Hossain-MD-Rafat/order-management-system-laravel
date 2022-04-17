@@ -44,7 +44,7 @@
                     <small class="fs-10">Domestic Shipping fee and agent fee will be added</small>
                 </div>
                 <div>
-                    <a href="{{ url('shipping') }}" class="add-to-cart">Continue</a>
+                    <a href="{{ url('user/shipping') }}" class="add-to-cart">Continue</a>
                 </div>
             </div>
         </div>

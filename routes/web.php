@@ -57,9 +57,8 @@ Route::group(["middleware" => "user"], function () {
     });
     Route::post('user/changeaccountinfo', [UserProfile::class, 'changeaccountinfo']);
 
-    Route::get('user/shipping', function () {
-        return view('user.shippingaddress');
-    });
+    Route::get('user/shipping', [UserProfile::class, 'address']);
+    
     Route::get('user/address', [UserProfile::class, 'address']);
     Route::get('user/addressform/{id?}', [UserProfile::class, 'addressform']);
     Route::post('user/addaddress', [UserProfile::class, 'addaddress']);

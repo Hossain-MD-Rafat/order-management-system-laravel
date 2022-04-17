@@ -10,8 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class UserProfile extends Controller
 {
-    public function profile($id = null)
+    public function profile()
     {
+        $loggeduser = session('loggedin_user');
+        $address = DB::table('address')
+            ->where('user_id', '=', $loggeduser['user_id'])
+            ->where('status', '=', 1)
+            ->get();
         return view('user.profile');
     }
     public function changeaccountinfo(Request $req)
@@ -86,6 +91,7 @@ class UserProfile extends Controller
         $loggeduser = session('loggedin_user');
         $addresses = DB::table('address')
             ->where('user_id', '=', $loggeduser['user_id'])
+            ->where('status', '=', 0)
             ->get();
         return view('user.address', array('addresses' => $addresses));
     }
@@ -101,7 +107,7 @@ class UserProfile extends Controller
     }
     public function addaddress(Request $req)
     {
-        if ($req->post('save_address')) {
+        if ($req->post('save_address') || $req->post('save_profile')) {
             $validator = Validator::make($req->all(), [
                 'name' => 'required|min:2',
                 'province' => 'required',
@@ -130,7 +136,9 @@ class UserProfile extends Controller
                     'phone' => $req->post('phone'),
                 );
                 $res = -1;
-
+                if ($req->post('save_profile')) {
+                    $data['status'] = 1;
+                }
                 if ($req->post('id')) {
                     $res = DB::table('address')
                         ->where('id', '=', $req->post('id'))
@@ -146,7 +154,20 @@ class UserProfile extends Controller
             }
         }
     }
-    public function deleteaddress(){
-        
+    public function deleteaddress()
+    {
+    }
+    public function shipping()
+    {
+        $loggeduser = session('loggedin_user');
+        $address = DB::table('address')
+            ->where('user_id', '=', $loggeduser['user_id'])
+            ->where('status', '=', 0)
+            ->get();
+        $mainAddress = DB::table('address')
+            ->where('user_id', '=', $loggeduser['user_id'])
+            ->where('status', '=', 1)
+            ->get('id');
+        return view('user.shippingaddress', array('address' => $address, 'main' => $mainAddress));
     }
 }

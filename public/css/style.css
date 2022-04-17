@@ -698,8 +698,27 @@ user-profile
     border: 1px solid grey;
     text-align: center;
     font-size: 30px;
+    cursor: pointer;
 }
-
+.shipping-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+.address-side-bar {
+    position: absolute;
+    min-height: 80vh;
+    padding: 20px 40px;
+    background: #f2f2f2e9;
+    width: 30%;
+    left: -37%;
+    transition: all 0.5s ease-in-out;
+}
+.address-side-bar.side-bar-show {
+    left: 0px;
+}
+.text-right {
+    text-align: right;
+}
 /*
 ##################################################
 login
