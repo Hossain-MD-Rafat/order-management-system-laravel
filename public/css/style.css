@@ -488,6 +488,7 @@ product-view
     display: block;
 }
 .add-to-cart {
+    text-transform: uppercase;
     border: none;
     background: #222;
     cursor: pointer;
@@ -614,6 +615,7 @@ user-profile
     cursor: pointer;
 }
 .signout-btn {
+    background: transparent;
     color: #222;
     text-decoration: none;
     margin-top: 40px;
@@ -711,10 +713,25 @@ user-profile
     background: #f2f2f2e9;
     width: 30%;
     left: -37%;
+    bottom: 0px;
     transition: all 0.5s ease-in-out;
+    overflow-y: scroll;
+    z-index: 10;
+}
+.address-item-select {
+    border: 1px solid grey;
+    padding: 10px 20px;
+}
+.selected-address {
+    border: 2px solid #222;
+}
+.fas.fa-times {
+    color: #080808;
+    font-size: 35px;
 }
 .address-side-bar.side-bar-show {
     left: 0px;
+    bottom: 0px;
 }
 .text-right {
     text-align: right;

@@ -57,8 +57,9 @@ Route::group(["middleware" => "user"], function () {
     });
     Route::post('user/changeaccountinfo', [UserProfile::class, 'changeaccountinfo']);
 
-    Route::get('user/shipping', [UserProfile::class, 'address']);
-    
+    Route::get('user/shipping', [UserProfile::class, 'shipping']);
+    Route::post('user/addshipping', [UserProfile::class, 'addshipping']);
+
     Route::get('user/address', [UserProfile::class, 'address']);
     Route::get('user/addressform/{id?}', [UserProfile::class, 'addressform']);
     Route::post('user/addaddress', [UserProfile::class, 'addaddress']);

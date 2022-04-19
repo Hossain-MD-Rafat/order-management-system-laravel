@@ -59,7 +59,7 @@ class Home extends Controller
                         $size = $item->attrValues;
                     }
                 }
-
+                
                 $client->request('GET', $weidian_product_details);
                 $res = $client->getResponse()->getContent();
                 $details = json_decode($res);
@@ -90,52 +90,88 @@ class Home extends Controller
             }
         }
         if ($taobao == 1) {
-
             preg_match_all("/(id=\d*)/", $url, $matches);
             $id = $matches[0][0];
             if (!$id) {
                 return redirect('/')->with('error', 'Please provide a valid url!');
             }
-            $curl = curl_init();
+            try {
+                $curl = curl_init();
 
-            curl_setopt_array($curl, [
-                CURLOPT_URL => "https://taobao-api.p.rapidapi.com/api?api=item_detail_simple&num_i" . $id,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => [
-                    "x-rapidapi-host: taobao-api.p.rapidapi.com",
-                    "x-rapidapi-key: 08be13129amshf261931bf3bffcep12e62cjsn2e88f0f25dac"
-                ],
-            ]);
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => "https://taobao-tmall-product-data.p.rapidapi.com/api/sc/taobao/item_detail?item_" . $id,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_HTTPHEADER => [
+                        "X-RapidAPI-Host: taobao-tmall-product-data.p.rapidapi.com",
+                        "X-RapidAPI-Key: 08be13129amshf261931bf3bffcep12e62cjsn2e88f0f25dac"
+                    ],
+                ]);
 
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
 
-            curl_close($curl);
+                curl_close($curl);
 
-            if ($err) {
-                return redirect('/')->with('error', 'Please provide a valid url!');
-            } else {
-                $response = json_decode($response);
-                $status = $response->result->status->code;
-                if ($status == 200) {
-                    $item = $response->result->item;
-                    $pd = array(
-                        "title" => $item->title,
-                        "price" => $item->promotion_price,
-                        "banner" => $item->images[0],
-                        "details" => $item->images,
-                        "site" => 2,
-                        "url" => $url
-                    );
+                if ($err) {
+                    return redirect('/')->with('error', 'Please provide a valid url!');
+                } else {
+                    $response = json_decode($response);
+                    $color = [];
+                    $size = [];
+                    $status = $response->code;
+                    if ($status == 200) {
+                        $item = $response->data;
+
+                        foreach ($item->sku_props as $i) {
+                            if ($i->prop_name == "颜色分类") {
+                                foreach ($i->values as $key => $val) {
+                                    $c_item = array(
+                                        "attrId" => $val->vid,
+                                        "attrValue" => $val->name,
+                                        "img" => $val->imageUrl
+                                    );
+                                    $color[$key] = (object)$c_item;
+                                }
+                            }
+                            if ($i->prop_name == "适用尺码" || $i->prop_name == "尺码") {
+                                foreach ($i->values as $key => $val) {
+                                    $s_item = array(
+                                        "attrId" => $val->vid,
+                                        "attrValue" => $val->name
+                                    );
+                                    $size[$key] = (object)$s_item;
+                                }
+                            }
+                        }
+                        $price = 0;
+                        if (isset($item->skus[0]->sub_price)) {
+                            $price = $item->skus[0]->sub_price;
+                        } else {
+                            $price = $item->skus[0]->sale_price;
+                        }
+
+                        $pd = array(
+                            "title" => $item->title,
+                            "price" => $price,
+                            "banner" => $item->main_imgs[0],
+                            "other_images" => $item->main_imgs,
+                            "site" => 2,
+                            "url" => $url,
+                            "color" => $color,
+                            "size" => $size
+                        );
+                    }
+                    session(['product' => (object)$pd]);
+                    return view('product_view', array('product' => (object)$pd));
                 }
-                session(['product' => (object)$pd]);
-                return view('product_view', array('product' => (object)$pd));
+            } catch (Exception $exception) {
+                return redirect('/')->with('error', 'Please provide a valid url!');
             }
         }
     }

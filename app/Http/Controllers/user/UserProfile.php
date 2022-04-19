@@ -170,4 +170,18 @@ class UserProfile extends Controller
             ->get('id');
         return view('user.shippingaddress', array('address' => $address, 'main' => $mainAddress));
     }
+    public function addshipping(Request $req)
+    {
+        if ($req->post('place_order')) {
+            $validator = Validator::make($req->all(), [
+                'address_id' => 'required',
+            ]);
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+                return redirect()->back()->withErrors($errors);
+            } else {
+                
+            }
+        }
+    }
 }
