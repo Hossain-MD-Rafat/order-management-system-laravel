@@ -50,7 +50,7 @@
                 @endif
                 <li><a href="">Help</a></li>
                 <li class="nav-item cart">
-                    <a href=""><i class="fas fa-shopping-bag"></i></a>
+                    <a href="{{ url('cart') }}"><i class="fas fa-shopping-bag"></i></a>
                     @if (session()->has('cart'))
                         <div class="cart-item">{{ sizeof(session('cart')) }}</div>
                     @endif

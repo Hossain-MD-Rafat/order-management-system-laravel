@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\user\UserProfile;
 use Illuminate\Support\Facades\Route;
@@ -64,10 +65,18 @@ Route::group(["middleware" => "user"], function () {
     Route::get('user/addressform/{id?}', [UserProfile::class, 'addressform']);
     Route::post('user/addaddress', [UserProfile::class, 'addaddress']);
     Route::get('checkout', function () {
-        return view('checkout');
+        return view('user.checkout');
     });
+    Route::get('order/{id}', [UserProfile::class, 'order']);
 });
 
-Route::get('admin', function () {
-    return view('admin.dashboard');
+Route::group(["middleware" => "admin"], function () {
+    Route::get('admin', [AdminController::class, 'adminDashboard']);
 });
+
+Route::get('site-admin/login', function () {
+    return view('admin.login');
+});
+Route::post('adminlogin', [AdminController::class, 'adminlogin']);
+
+Route::get('cartview', [UserProfile::class, 'cart']);

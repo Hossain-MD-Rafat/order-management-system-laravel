@@ -16,24 +16,35 @@
                     </div>
                 </div>
                 <div class="mt-4 row" id="profile-content-purchases">
-                    <div class="col-md-6 mb-5">
-                        <div class="order-statu">Delivered</div>
-                        <div class="order-date">Thurshday 2022, April</div>
-                        <span>$223 <a href="">View Order</a></span>
-                        <img src="./images/kelly-sikkema-xp-ND7NjWaA-unsplash.jpg" alt="" class="w-100" />
-                    </div>
-                    <div class="col-md-6 mb-5">
-                        <div class="order-statu">Delivered</div>
-                        <div class="order-date">Thurshday 2022, April</div>
-                        <span>$223 <a href="">View Order</a></span>
-                        <img src="./images/kelly-sikkema-xp-ND7NjWaA-unsplash.jpg" alt="" class="w-100" />
-                    </div>
-                    <div class="col-md-6 mb-5">
-                        <div class="order-statu">Delivered</div>
-                        <div class="order-date">Thurshday 2022, April</div>
-                        <span>$223 <a href="">View Order</a></span>
-                        <img src="./images/kelly-sikkema-xp-ND7NjWaA-unsplash.jpg" alt="" class="w-100" />
-                    </div>
+                    @foreach ($orders as $item)
+                        <div class="col-md-6 mb-5">
+                            <div class="order-status">
+                                @if ($item->delivery_status == 1)
+                                    Requested
+                                @elseif($item->delivery_status == 2)
+                                    checking purchase
+                                @elseif($item->delivery_status == 3)
+                                    purchase order payment
+                                @elseif($item->delivery_status == 4)
+                                    we are checking
+                                @elseif($item->delivery_status == 5)
+                                    shipping charge payment
+                                @elseif($item->delivery_status == 6)
+                                    delivery in progress
+                                @elseif($item->delivery_status == 7)
+                                    complete
+                                @else
+                                @endif
+                            </div>
+                            <div class="order-date">{{ $item->date }}</div>
+                            <span>¥{{ $item->unit_price }} <a href="{{ 'order/' . $item->id }}"
+                                    class="text-uppercase text-dark">View Full
+                                    Order</a></span>
+                            <div class="img-div mt-2">
+                                <img src="{{ $item->image }}" alt="" />
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="mt-4 row d-none" id="profile-content-profile">
                     <div class="col-md-10">

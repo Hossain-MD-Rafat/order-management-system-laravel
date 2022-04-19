@@ -17,7 +17,8 @@ class UserProfile extends Controller
             ->where('user_id', '=', $loggeduser['user_id'])
             ->where('status', '=', 1)
             ->get();
-        return view('user.profile');
+        $orders = DB::select("SELECT o.id, o.date, p.unit_price, o.delivery_status, p.image FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE o.user_id={$loggeduser['user_id']}");
+        return view('user.profile', array('address' => $address, 'orders' => $orders));
     }
     public function changeaccountinfo(Request $req)
     {
@@ -180,8 +181,51 @@ class UserProfile extends Controller
                 $errors = $validator->errors();
                 return redirect()->back()->withErrors($errors);
             } else {
-                
+                $loggeduser = session('loggedin_user');
+                $total = 0;
+                $itemsCount = sizeof(session('cart'));
+                $totalQuantity = 0;
+                foreach (session('cart') as $item) {
+                    $total += $item['price'];
+                    $totalQuantity += $item['quantity'];
+                }
+                $orderData = array(
+                    'user_id' => $loggeduser['user_id'],
+                    'total_amount' => $total,
+                    'items_count' => $itemsCount,
+                    'total_quantity' => $totalQuantity
+                );
+                $order_id = DB::table('orders')->insertGetId($orderData);
+                foreach (session('cart') as $key => $item) {
+                    $productData = array(
+                        'name' => $item['title'],
+                        'product_url' => $item['url'],
+                        'image' => $item['banner'],
+                        'order_id' => $order_id,
+                        'unit_price' => $item['price'],
+                        'quantity' => $item['quantity'],
+                        'color' => $item['color'],
+                        'size' => $item['size']
+                    );
+                    $res = DB::table('products')->insert($productData);
+                    if ($res < 1) {
+                        return redirect()->back()->withErrors(['error' => 'Unable to complete order. Please try again.']);
+                    }
+                }
+                session()->forget('cart');
+                return redirect('user');
             }
         }
+    }
+    public function order($id)
+    {
+        $loggeduser = session('loggedin_user');
+        $order = DB::select("SELECT o.id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE o.user_id={$loggeduser['user_id']} and p.order_id={$id}");
+        return view('user.order', ['order' => $order]);
+    }
+    public function cart()
+    {
+        print_r(sizeof(session('cart')));
+        print_r(session('cart'));
     }
 }

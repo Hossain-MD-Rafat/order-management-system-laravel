@@ -30,24 +30,44 @@
                             <div class="col-md-2 text-center">Progess</div>
                             <div class="col-md-2 text-center">Action</div>
                         </div>
-                        <div class="admin-content-body row d-flex align-content-center">
-                            <div class="col-md-1 text-center">#01</div>
-                            <div class="col-md-3 text-center">02-02-2022</div>
-                            <div class="col-md-2 text-center">$3210</div>
-                            <div class="col-md-2 text-center">
-                                <div class="text-primary">Paid</div>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <div class="text-success">Delivered</div>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <div class="d-flex justify-content-between align-content-center">
-                                    <a href=""><i class="fas fa-eye text-primary"></i></a>
-                                    <a href=""><i class="fas fa-edit text-secondary"></i></a>
-                                    <div><i class="fas fa-trash text-danger"></i></div>
+                        @foreach ($orders as $item)
+                            <div class="admin-content-body row d-flex align-content-center">
+                                <div class="col-md-1 text-center">#{{ $item->id }}</div>
+                                <div class="col-md-3 text-center">{{ $item->date }}</div>
+                                <div class="col-md-2 text-center">¥{{ $item->total_amount }}</div>
+                                <div class="col-md-2 text-center">
+                                    <div class="text-primary">{{ $item->payment_status == 1 ? 'Paid' : 'Unpaid' }}</div>
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <div class="text-success">
+                                        @if ($item->delivery_status == 1)
+                                            Requested
+                                        @elseif($item->delivery_status == 2)
+                                            checking purchase
+                                        @elseif($item->delivery_status == 3)
+                                            purchase order payment
+                                        @elseif($item->delivery_status == 4)
+                                            we are checking
+                                        @elseif($item->delivery_status == 5)
+                                            shipping charge payment
+                                        @elseif($item->delivery_status == 6)
+                                            delivery in progress
+                                        @elseif($item->delivery_status == 7)
+                                            complete
+                                        @else
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <div class="d-flex justify-content-between align-content-center">
+                                        <a href=""><i class="fas fa-eye text-primary"></i></a>
+                                        <a href=""><i class="fas fa-edit text-secondary"></i></a>
+                                        <div><i class="fas fa-trash text-danger"></i></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
+
                         <div class="admin-content-footer row">
                             <div class="admin-pagination">
                                 <div>pages</div>
