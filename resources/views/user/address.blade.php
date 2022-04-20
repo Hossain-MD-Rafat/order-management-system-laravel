@@ -22,7 +22,9 @@
                             <div role="button" onclick="showsub(event, this)"><i class="fas fa-ellipsis-h"></i></div>
                             <div class="actions d-none">
                                 <a href="{{ url('user/addressform/' . $address->id) }}" class="actions-item">Edit</a>
-                                <div role="button" class="actions-item">Delete</div>
+                                <div role="button" onclick="deleteAdress(this, {{ $address->id }})"
+                                    class="actions-item">
+                                    Delete</div>
                             </div>
                         </div>
                     </div>
@@ -39,5 +41,33 @@
         $(document).click(() => {
             $('.actions.d-block').toggleClass('d-block d-none');
         })
+
+        function deleteAdress(e, id) {
+            let item = e.parentNode.parentNode.parentNode;
+            item.style.display = 'none';
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: "POST",
+                url: "{{ url('user/addressdelete') }}",
+                data: {
+                    delete: true,
+                    id: id
+                },
+                cache: false,
+                success: function(response) {
+                    if (response.status === 200) {
+                        item.remove();
+                    } else {
+                        item.style.display = 'block';
+                    }
+                },
+                error: function(response) {
+                    item.style.display = 'block';
+                }
+            });
+        }
     </script>
 @endsection

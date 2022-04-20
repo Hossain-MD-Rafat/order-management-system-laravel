@@ -155,8 +155,20 @@ class UserProfile extends Controller
             }
         }
     }
-    public function deleteaddress()
+    public function addressdelete(Request $req)
     {
+        if ($req->post('delete')) {
+            $loggeduser = session('loggedin_user');
+            $deleted = DB::table('address')
+                ->where('id', '=', $req->post('id'))
+                ->where('user_id', '=', $loggeduser['user_id'])
+                ->delete();
+            if ($deleted) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 400]);
+            }
+        }
     }
     public function shipping()
     {
@@ -223,9 +235,9 @@ class UserProfile extends Controller
         $order = DB::select("SELECT o.id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE o.user_id={$loggeduser['user_id']} and p.order_id={$id}");
         return view('user.order', ['order' => $order]);
     }
-    public function cart()
-    {
-        print_r(sizeof(session('cart')));
-        print_r(session('cart'));
-    }
+    // public function cart()
+    // {
+    //     print_r(sizeof(session('cart')));
+    //     print_r(session('cart'));
+    // }
 }

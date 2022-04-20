@@ -51,6 +51,8 @@ Route::get('register', function () {
 });
 Route::post('userregistration', [Home::class, 'userregistration']);
 
+Route::get('cartview', [UserProfile::class, 'cart']);
+
 Route::group(["middleware" => "user"], function () {
     Route::get('/user', [UserProfile::class, 'profile']);
     Route::get('user/account', function () {
@@ -64,6 +66,7 @@ Route::group(["middleware" => "user"], function () {
     Route::get('user/address', [UserProfile::class, 'address']);
     Route::get('user/addressform/{id?}', [UserProfile::class, 'addressform']);
     Route::post('user/addaddress', [UserProfile::class, 'addaddress']);
+    Route::post('user/addressdelete', [UserProfile::class, 'addressdelete']);
     Route::get('checkout', function () {
         return view('user.checkout');
     });
@@ -72,11 +75,13 @@ Route::group(["middleware" => "user"], function () {
 
 Route::group(["middleware" => "admin"], function () {
     Route::get('admin', [AdminController::class, 'adminDashboard']);
+    Route::get('admin/orderedit/{id}', [AdminController::class, 'orderedit']);
+    Route::post('admin/saveorderedit/{oid}/{pid}', [AdminController::class, 'saveitem']);
+    Route::post('admin/saveorderedit/{oid}', [AdminController::class, 'ordersave']);
+    Route::post('admin/updatestatus', [AdminController::class, 'updatestatus']);
 });
 
 Route::get('site-admin/login', function () {
     return view('admin.login');
 });
-Route::post('adminlogin', [AdminController::class, 'adminlogin']);
-
-Route::get('cartview', [UserProfile::class, 'cart']);
+Route::post('adminlogin', [Home::class, 'adminlogin']);

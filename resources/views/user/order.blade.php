@@ -41,7 +41,7 @@
                                     <div class="carousel-inner">
                                         @foreach ($uploaded_image as $key => $item)
                                             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                <img src="{{ $item }}" alt="uploaded-image">
+                                                <img src="{{ asset('storage/' . $item) }}" alt="uploaded-image">
                                             </div>
                                         @endforeach
                                     </div>

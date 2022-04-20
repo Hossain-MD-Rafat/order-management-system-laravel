@@ -59,7 +59,7 @@ class Home extends Controller
                         $size = $item->attrValues;
                     }
                 }
-                
+
                 $client->request('GET', $weidian_product_details);
                 $res = $client->getResponse()->getContent();
                 $details = json_decode($res);
@@ -275,6 +275,36 @@ class Home extends Controller
                     }
                 } catch (Exception $exception) {
                     return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
+                }
+            }
+        }
+    }
+    public function adminlogin(Request $req)
+    {
+        if ($req->post('login')) {
+            $validator = Validator::make($req->all(), [
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+                return redirect()->back()->withErrors($errors);
+            } else {
+                $user = DB::table('admin')
+                    ->where('email', '=', $req->post('email'))
+                    ->orWhere('username', '=', $req->post('email'))
+                    ->get();
+                if (Hash::check($req->post('password'), $user[0]->password)) {
+                    $user = array(
+                        'admin_id' => $user[0]->id,
+                        'adminname' => $user[0]->username,
+                        'email' => $user[0]->email,
+                    );
+                    session()->put('loggedin_admin', $user);
+                    return redirect('/admin');
+                } else {
+                    return redirect()->back()->withErrors(['error' => 'Admin not found!']);
                 }
             }
         }
