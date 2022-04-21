@@ -71,17 +71,25 @@ Route::group(["middleware" => "user"], function () {
         return view('user.checkout');
     });
     Route::get('order/{id}', [UserProfile::class, 'order']);
+    Route::get('user/signout', [UserProfile::class, 'signout']);
 });
 
 Route::group(["middleware" => "admin"], function () {
     Route::get('admin', [AdminController::class, 'adminDashboard']);
     Route::get('admin/orderedit/{id}', [AdminController::class, 'orderedit']);
+    Route::get('admin/changeadminpass', function () {
+        return view('admin.changepass');
+    });
+    Route::post('admin/changeadminpass', [AdminController::class, 'changeadminpass']);
     Route::post('admin/saveorderedit/{oid}/{pid}', [AdminController::class, 'saveitem']);
     Route::post('admin/saveorderedit/{oid}', [AdminController::class, 'ordersave']);
     Route::post('admin/updatestatus', [AdminController::class, 'updatestatus']);
+    Route::get('adminsignout', [AdminController::class, 'signout']);
 });
 
 Route::get('site-admin/login', function () {
     return view('admin.login');
 });
 Route::post('adminlogin', [Home::class, 'adminlogin']);
+
+Route::post('sendcustomerquery', [Home::class, 'sendcustomerquery']);

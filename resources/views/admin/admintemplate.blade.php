@@ -37,7 +37,8 @@
                         <img class="w-30" src="../images/favicon_bbabae.ico" alt="" />
                     </div>
                     <div class="col-md-8">
-                        <a class="view-website" href=""><i class="fas fa-eye"></i> View website</a>
+                        <a class="view-website" href="{{ url('/') }}"><i class="fas fa-eye"></i> View
+                            website</a>
                     </div>
                 </div>
             </div>

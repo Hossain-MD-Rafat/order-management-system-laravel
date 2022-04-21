@@ -26,8 +26,10 @@
                                 <div class="admin-right-nav-item">Faq</div>
                             </div>
                             <div class="admin-bottom">
-                                <div><i class="fas fa-cog"></i></div>
-                                <div><i class="fas fa-sign-out-alt"></i></div>
+                                <div><a href="{{ url('admin/changeadminpass') }}"><i
+                                            class="fas fa-cog text-white"></i></a>
+                                </div>
+                                <div><a href="{{url('adminsignout')}}"><i class="fas fa-sign-out-alt text-white"></i></a></div>
                             </div>
                         </div>
                     </div>

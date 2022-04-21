@@ -328,6 +328,23 @@ faq section
     background-color: #222;
     color: white;
 }
+.faq-item {
+    border: 1px solid grey;
+    padding: 5px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    position: relative;
+}
+.faq-icon {
+    position: absolute;
+    right: 12px;
+    top: 7px;
+    color: #d0d0d0;
+}
+.faq-icon i {
+    font-size: 20px;
+}
 
 /*
 ##################################################
@@ -458,6 +475,20 @@ footer {
     text-transform: uppercase;
     text-decoration: none;
     font-size: 12px;
+}
+.footer-social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.footer-social-media a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: rgb(88, 88, 88);
+    display: block;
+    margin: 0px 5px;
+    font-size: 14px;
 }
 
 /*
@@ -1016,6 +1047,28 @@ media query
 ##################################################
 */
 @media (max-width: 790px) {
+    .nav,
+    .nav-menu {
+        display: block;
+    }
+    .nav-menu {
+        position: absolute;
+        max-width: 330px;
+        height: 100vh;
+        right: 0;
+        top: 0;
+        background: #222;
+        z-index: 11;
+    }
+    .nav-menu li {
+        margin: 20px 0px;
+    }
+    .section-header span.back-text {
+        display: none;
+    }
+    .menu-search {
+        width: 100%;
+    }
     .wrapper .center-line {
         left: 40px;
     }
@@ -1033,6 +1086,13 @@ media query
     }
 }
 @media (max-width: 440px) {
+    .nav,
+    .nav-menu {
+        display: block;
+    }
+    .section-header span.back-text {
+        display: none;
+    }
     .wrapper .center-line,
     .row section::before,
     .row section .icon {
@@ -1056,8 +1116,14 @@ media query
     .counter-up .content .box {
         width: 100%;
     }
+    body {
+        width: 100%;
+    }
 }
 @media screen and (max-width: 500px) {
+    body {
+        width: 100%;
+    }
     .wrapper {
         padding: 20px;
     }

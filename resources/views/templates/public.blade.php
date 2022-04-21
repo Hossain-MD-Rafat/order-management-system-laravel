@@ -40,7 +40,10 @@
 
             <ul class="nav-menu">
                 <li>
-                    <input type="text" placeholder="search" class="menu-search" />
+                    <form action="{{ url('producturl') }}" method="post">
+                        @csrf
+                        <input type="text" placeholder="search" name="product_url" class="menu-search" />
+                    </form>
                 </li>
 
                 @if (!is_null(session('loggedin_user')))
@@ -64,55 +67,74 @@
     <!-- footer -->
     <footer class="container-fliud">
         <div class="content-area">
-            <div class="row">
-                <div class="col-md-3">
-                    <ul class="footer-menu text-uppercase">
-                        <li class="footer-menu-heading text-uppercase">Help</li>
-                        <li class="footer-menu-item">
-                            <a href="">Shop at bbabae.com</a>
-                        </li>
-                        <li class="footer-menu-item"><a href="">Product</a></li>
-                        <li class="footer-menu-item"><a href="">payment</a></li>
-                        <li class="footer-menu-item"><a href="">shipping</a></li>
-                        <li class="footer-menu-item">
-                            <a href="">exchanges and return</a>
-                        </li>
-                        <li class="footer-menu-item"><a href="">my account</a></li>
-                    </ul>
+            @if (is_null(session('loggedin_user')))
+                <div class="row">
+                    <div class="text-center text-uppercase mb-4 text-dark">join our newsletter</div>
+                    <div class="footer-social-media">
+                        <a href="">Titok</a>
+                        <a href="">instragram</a>
+                        <a href="">facebook</a>
+                        <a href="">twitter</a>
+                        <a href="">pinterest</a>
+                        <a href="">youtube</a>
+                    </div>
+                    <div class="footer-social-media">
+                        <a href="">cookies settings |</a>
+                        <a href="">privacy and cookies policy |</a>
+                        <a href="">terms of use</a>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <ul class="footer-menu text-uppercase">
-                        <li class="footer-menu-heading text-uppercase">follow us</li>
-                        <li class="footer-menu-item">
-                            <a href="">newsletter</a>
-                        </li>
-                        <li class="footer-menu-item"><a href="">wechat</a></li>
-                        <li class="footer-menu-item"><a href="">weibo</a></li>
-                    </ul>
+            @else
+                <div class="row">
+                    <div class="col-md-3">
+                        <ul class="footer-menu text-uppercase">
+                            <li class="footer-menu-heading text-uppercase">Help</li>
+                            <li class="footer-menu-item">
+                                <a href="">Shop at bbabae.com</a>
+                            </li>
+                            <li class="footer-menu-item"><a href="">Product</a></li>
+                            <li class="footer-menu-item"><a href="">payment</a></li>
+                            <li class="footer-menu-item"><a href="">shipping</a></li>
+                            <li class="footer-menu-item">
+                                <a href="">exchanges and return</a>
+                            </li>
+                            <li class="footer-menu-item"><a href="">my account</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="footer-menu text-uppercase">
+                            <li class="footer-menu-heading text-uppercase">follow us</li>
+                            <li class="footer-menu-item">
+                                <a href="">newsletter</a>
+                            </li>
+                            <li class="footer-menu-item"><a href="">wechat</a></li>
+                            <li class="footer-menu-item"><a href="">weibo</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="footer-menu text-uppercase">
+                            <li class="footer-menu-heading">Company</li>
+                            <li class="footer-menu-item">
+                                <a href="">about us</a>
+                            </li>
+                            <li class="footer-menu-item"><a href="">join life</a></li>
+                            <li class="footer-menu-item"><a href="">offices</a></li>
+                            <li class="footer-menu-item"><a href="">stories</a></li>
+                            <li class="footer-menu-item">
+                                <a href="">work with us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="footer-menu text-uppercase">
+                            <li class="footer-menu-heading">Policies</li>
+                            <li class="footer-menu-item"><a href="">privacy policy</a></li>
+                            <li class="footer-menu-item"><a href="">purchase conditions</a></li>
+                        </ul>
+                    </div>
+                    <p class="fs-12 mt-2 text-center text-uppercase text-dark">2022 © All right reserved.</p>
                 </div>
-                <div class="col-md-3">
-                    <ul class="footer-menu text-uppercase">
-                        <li class="footer-menu-heading">Company</li>
-                        <li class="footer-menu-item">
-                            <a href="">about us</a>
-                        </li>
-                        <li class="footer-menu-item"><a href="">join life</a></li>
-                        <li class="footer-menu-item"><a href="">offices</a></li>
-                        <li class="footer-menu-item"><a href="">stories</a></li>
-                        <li class="footer-menu-item">
-                            <a href="">work with us</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <ul class="footer-menu text-uppercase">
-                        <li class="footer-menu-heading">Policies</li>
-                        <li class="footer-menu-item"><a href="">privacy policy</a></li>
-                        <li class="footer-menu-item"><a href="">purchase conditions</a></li>
-                    </ul>
-                </div>
-                <p class="fs-12 mt-2 text-center text-uppercase text-dark">2022 © All right reserved.</p>
-            </div>
+            @endif
         </div>
     </footer>
 

@@ -177,6 +177,10 @@
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum
                     tempora culpa minima odit ad saepe.
                 </p>
+                <div class="faq-icon">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-up d-none"></i>
+                </div>
             </div>
             <div class="faq-item" onclick="faq(this)">
                 <div class="question">How to use the website?</div>
@@ -184,6 +188,10 @@
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum
                     tempora culpa minima odit ad saepe.
                 </p>
+                <div class="faq-icon">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-up d-none"></i>
+                </div>
             </div>
             <div class="faq-item" onclick="faq(this)">
                 <div class="question">How to use the website?</div>
@@ -191,6 +199,10 @@
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum
                     tempora culpa minima odit ad saepe.
                 </p>
+                <div class="faq-icon">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-up d-none"></i>
+                </div>
             </div>
         </div>
     </section>
@@ -208,7 +220,8 @@
                 <!-- column with offset -->
                 <div class="col-md-6 offset-md-3">
                     <!-- Contact Form -->
-                    <form id="contact-form" class="contact-form" method="post" action="form/contact.php">
+                    <div id="contact-msg"></div>
+                    <form id="contact-form" class="contact-form" method="post" onsubmit="sendquery(this)">
                         <div class="messages"></div>
 
                         <!-- Name input -->
@@ -247,15 +260,50 @@
 
                 </div>
                 <!-- end column -->
-
             </div>
         </div>
     </section>
-@endsection
+    <script>
+        function faq(ctx) {
+            let p = ctx.querySelector('p');
+            ctx.querySelector('.faq-icon .fa-chevron-down').classList.toggle('d-none');
+            ctx.querySelector('.faq-icon .fa-chevron-up').classList.toggle('d-none');
+            $(p).toggleClass('d-none');
+        }
 
-<script>
-    function faq(ctx) {
-        let p = ctx.querySelector('p');
-        $(p).toggleClass('d-none');
-    }
-</script>
+        function sendquery(e) {
+            event.preventDefault();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ url('sendcustomerquery') }}",
+                method: 'POST',
+                cache: false,
+                data: {
+                    'sendquery': true,
+                    'name': $('#InputName').val(),
+                    'email': $('#InputEmail').val(),
+                    'subject': $('#InputSubject').val(),
+                    'message': $('#InputMessage').val()
+                },
+                success: function(res) {
+                    if (res.status == 200) {
+                        $('#contact-msg').html(
+                            '<span class="text-success mb-2 d-block">Your query has been sent successfully. We will get back to you soon.</span>'
+                        );
+                    } else {
+                        $('#contact-msg').html(
+                            '<span class="text-danger mb-2 d-block">Failed to send! Please try again.</span>'
+                        );
+                    }
+                },
+                error: function() {
+                    $('#contact-msg').html(
+                        '<span class="text-danger mb-2 d-block">Failed to send! Please try again.</span>'
+                    );
+                }
+            });
+        }
+    </script>
+@endsection

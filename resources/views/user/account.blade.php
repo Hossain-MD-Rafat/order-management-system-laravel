@@ -28,7 +28,7 @@
                             </div>
                             <div><i class="fas fa-angle-right text-dark"></i></div>
                         </div>
-                        <a class="signout-btn" href="{{ url('signout') }}">Sign out</a>
+                        <a class="signout-btn" href="{{ url('user/signout') }}">Sign out</a>
                     </div>
                 </div>
                 <div class="telephone-change d-none">

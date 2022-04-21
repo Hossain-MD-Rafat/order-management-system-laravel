@@ -86,4 +86,44 @@ class AdminController extends Controller
             }
         }
     }
+    public function changeadminpass(Request $req)
+    {
+        if ($req->post('password_change')) {
+            $validator = Validator::make($req->all(), [
+                'password' => 'required|min:6',
+                'new_password' => 'required|min:6',
+                'new_password_again' => 'required|min:6',
+            ]);
+            if ($req->post('new_password') == $req->post('new_password_again')) {
+                if ($validator->fails()) {
+                    $errors = $validator->errors();
+                    return redirect()->back()->withErrors($errors);
+                } else {
+                    $loggedadmin = session('loggedin_admin');
+                    $admin = DB::table('admin')
+                        ->where('id', '=', $loggedadmin['admin_id'])
+                        ->get();
+                    if (Hash::check($req->post('password'), $admin[0]->password)) {
+                        $res = DB::table('admin')
+                            ->where('id', '=', $loggedadmin['admin_id'])
+                            ->update(['password' => bcrypt($req->post('new_password'))]);
+                        if ($res > 0) {
+                            return redirect()->back()->with('msg', 'Your password has been changed successfully!');
+                        } else {
+                            return redirect()->back()->withErrors(['error' => 'Internal server error. Try again later']);
+                        }
+                    } else {
+                        return redirect()->back()->withErrors(['error' => 'Password is incorrect!']);
+                    }
+                }
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Both the password should be same']);
+            }
+        }
+    }
+    public function signout()
+    {
+        session()->forget('loggedin_admin');
+        return redirect('admin');
+    }
 }

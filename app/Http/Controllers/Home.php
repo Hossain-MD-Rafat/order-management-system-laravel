@@ -309,6 +309,23 @@ class Home extends Controller
             }
         }
     }
+    public function sendcustomerquery(Request $req)
+    {
+        if ($req->post('sendquery')) {
+            $data = array(
+                'name' => $req->post('name'),
+                'email' => $req->post('email'),
+                'subject' => $req->post('subject'),
+                'message' => $req->post('message'),
+            );
+            $res = DB::table('customer_query')->insert($data);
+            if ($res) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 400]);
+            }
+        }
+    }
 }
 
 //$url = 'https://shop317730822.v.weidian.com/item.html?itemID=4412176101&wfr=c&ifr=itemdetail&spider_token=a986&share_relation=39c5aa4489fba769_1459959101_1';
