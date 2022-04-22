@@ -48,11 +48,12 @@
                 </div>
                 <div class="mt-4 row d-none" id="profile-content-profile">
                     <div class="col-md-10">
-                        <a href="" class="profile-item">
+                        <a href="{{ url('user/profiledetails') }}" class="profile-item">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="profile-item-heading">Rafat</span><span
-                                        class="profile-item-body">0298547</span>
+                                    <span
+                                        class="profile-item-heading">{{ session('loggedin_user')['username'] }}</span><span
+                                        class="profile-item-body">{{ session('loggedin_user')['username'] }}</span>
                                 </div>
                                 <div><i class="fas fa-angle-right text-dark"></i></div>
                             </div>

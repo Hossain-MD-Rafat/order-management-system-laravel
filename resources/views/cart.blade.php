@@ -30,7 +30,8 @@
                                 </div>
                             </div>
                             <div class="cart-product-details">¥<span>{{ $item['price'] }}</span></div>
-                            <div class="cart-product-details text-danger" role="button"
+                            <div class="cart-product-details text-danger" role="button" data-bs-toggle="modal"
+                                data-bs-target="#cart-delete"
                                 onclick="deletcartitem(this, {{ $item['id'] }}, {{ $item['price'] }})">Delete</div>
                         </div>
                     </div>
@@ -45,6 +46,27 @@
                 </div>
                 <div>
                     <a href="{{ url('user/shipping') }}" class="add-to-cart">Continue</a>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="cart-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Confirmation Message</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="padding: 0px 10px;">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure to delete the item!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Back</button>
+                        <button type="button" id="confirm" class="btn btn-danger" data-bs-dismiss="modal">Yes, Go!</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,33 +150,35 @@
         }
 
         function deletcartitem(e, id, price) {
-            let qnt = parseInt(e.parentNode.querySelector('#quantity').value);
-            let total = parseFloat($('#total-amount').text());
-            $('#total-amount').text(total - (price * qnt));
+            $('#confirm').click(() => {
+                let qnt = parseInt(e.parentNode.querySelector('#quantity').value);
+                let total = parseFloat($('#total-amount').text());
+                $('#total-amount').text(total - (price * qnt));
 
-            let item = e.parentNode.parentNode.parentNode;
-            item.style.display = 'none';
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                method: "POST",
-                url: "{{ url('cartitemdelete') }}",
-                data: {
-                    delete: true,
-                    id: id
-                },
-                cache: false,
-                success: function(response) {
-                    if (response.status === 200) {
-                        item.remove();
-                    } else {
+                let item = e.parentNode.parentNode.parentNode;
+                item.style.display = 'none';
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: "POST",
+                    url: "{{ url('cartitemdelete') }}",
+                    data: {
+                        delete: true,
+                        id: id
+                    },
+                    cache: false,
+                    success: function(response) {
+                        if (response.status === 200) {
+                            item.remove();
+                        } else {
+                            item.style.display = 'block';
+                        }
+                    },
+                    error: function(response) {
                         item.style.display = 'block';
                     }
-                },
-                error: function(response) {
-                    item.style.display = 'block';
-                }
+                });
             });
         }
     </script>

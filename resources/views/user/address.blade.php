@@ -22,14 +22,34 @@
                             <div role="button" onclick="showsub(event, this)"><i class="fas fa-ellipsis-h"></i></div>
                             <div class="actions d-none">
                                 <a href="{{ url('user/addressform/' . $address->id) }}" class="actions-item">Edit</a>
-                                <div role="button" onclick="deleteAdress(this, {{ $address->id }})"
-                                    class="actions-item">
+                                <div role="button" data-bs-toggle="modal" data-bs-target="#address-delete"
+                                    onclick="deleteAdress(this, {{ $address->id }})" class="actions-item">
                                     Delete</div>
                             </div>
                         </div>
                     </div>
                 @endforeach
-
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="address-delete" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Confirmation Message</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="padding: 0px 10px;">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure to delete the address!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Back</button>
+                        <button type="button" id="confirm" class="btn btn-danger" data-bs-dismiss="modal">Yes, Go!</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -43,30 +63,32 @@
         })
 
         function deleteAdress(e, id) {
-            let item = e.parentNode.parentNode.parentNode;
-            item.style.display = 'none';
+            $('#confirm').click(() => {
+                let item = e.parentNode.parentNode.parentNode;
+                item.style.display = 'none';
 
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                method: "POST",
-                url: "{{ url('user/addressdelete') }}",
-                data: {
-                    delete: true,
-                    id: id
-                },
-                cache: false,
-                success: function(response) {
-                    if (response.status === 200) {
-                        item.remove();
-                    } else {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: "POST",
+                    url: "{{ url('user/addressdelete') }}",
+                    data: {
+                        delete: true,
+                        id: id
+                    },
+                    cache: false,
+                    success: function(response) {
+                        if (response.status === 200) {
+                            item.remove();
+                        } else {
+                            item.style.display = 'block';
+                        }
+                    },
+                    error: function(response) {
                         item.style.display = 'block';
                     }
-                },
-                error: function(response) {
-                    item.style.display = 'block';
-                }
+                });
             });
         }
     </script>

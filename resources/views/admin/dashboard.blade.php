@@ -2,14 +2,23 @@
 
 @section('content-area')
     <style type="text/css">
-        .my-active span {
-            background-color: #222 !important;
-            color: white !important;
-            border-color: #222 !important;
+        .pagination {
+            width: fit-content;
+            margin: auto
+        }
+
+        .page-link {
+            outline: none
+        }
+
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: #337533;
+            border-color: #337533;
         }
 
     </style>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <section class="container-fluid admin-body">
         <div class="row">
@@ -29,7 +38,9 @@
                                 <div><a href="{{ url('admin/changeadminpass') }}"><i
                                             class="fas fa-cog text-white"></i></a>
                                 </div>
-                                <div><a href="{{url('adminsignout')}}"><i class="fas fa-sign-out-alt text-white"></i></a></div>
+                                <div><a href="{{ url('adminsignout') }}"><i
+                                            class="fas fa-sign-out-alt text-white"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -74,19 +85,42 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2 text-center">
-                                    <div class="d-flex justify-content-between align-content-center">
-                                        <a href=""><i class="fas fa-eye text-primary"></i></a>
+                                    <div class="d-flex justify-content-center align-content-center">
                                         <a href="{{ url('admin/orderedit/' . $item->id) }}"><i
                                                 class="fas fa-edit text-secondary"></i></a>
-                                        <div><i class="fas fa-trash text-danger"></i></div>
+                                        <div class="ml-2" role="button" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" onclick="deleteorder(this, {{ $item->id }})">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
 
                         <div class="admin-content-footer row">
-                            {{ $orders->links('vendor.pagination.custom') }}
+                            {{ $orders->links() }}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Confirmation Message</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="padding: 0px 10px;">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure to delete the item!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Back</button>
+                        <button type="button" id="confirm" class="btn btn-danger" data-bs-dismiss="modal">Yes, Go!</button>
                     </div>
                 </div>
             </div>
@@ -112,6 +146,36 @@
                 error: function() {
 
                 }
+            });
+        }
+
+        function deleteorder(e, id) {
+            $('#confirm').click(() => {
+                let item = e.parentNode.parentNode.parentNode;
+                item.style.display = 'none';
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: "POST",
+                    url: "{{ url('admin/deleteorder') }}",
+                    data: {
+                        delete: true,
+                        id: id
+                    },
+                    cache: false,
+                    success: function(response) {
+                        if (response.status === 200) {
+                            item.remove();
+                        } else {
+                            item.style.display = 'block';
+                        }
+                    },
+                    error: function(response) {
+                        item.style.display = 'block';
+                    }
+                });
             });
         }
     </script>

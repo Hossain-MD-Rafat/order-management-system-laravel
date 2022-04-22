@@ -20,6 +20,14 @@ class UserProfile extends Controller
         $orders = DB::select("SELECT o.id, o.date, p.unit_price, o.delivery_status, p.image FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE o.user_id={$loggeduser['user_id']}");
         return view('user.profile', array('address' => $address, 'orders' => $orders));
     }
+    public function profiledetails()
+    {
+        $loggeduser = session('loggedin_user');
+        $details = DB::table('users')
+            ->where('id', '=', $loggeduser['user_id'])
+            ->get();
+        return view('user.profiledetails', array('details' => $details[0]));
+    }
     public function changeaccountinfo(Request $req)
     {
         if ($req->post('phone_change')) {

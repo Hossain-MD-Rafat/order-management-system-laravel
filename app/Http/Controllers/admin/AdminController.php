@@ -121,6 +121,22 @@ class AdminController extends Controller
             }
         }
     }
+    public function deleteorder(Request $req)
+    {
+        if ($req->post('delete') && !is_null(session('loggedin_admin'))) {
+            $pd = DB::table('products')
+                ->where('order_id', '=', $req->post('id'))
+                ->delete();
+            $deleted = DB::table('orders')
+                ->where('id', '=', $req->post('id'))
+                ->delete();
+            if ($deleted) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 400]);
+            }
+        }
+    }
     public function signout()
     {
         session()->forget('loggedin_admin');

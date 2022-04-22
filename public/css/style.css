@@ -609,6 +609,19 @@ input[type="number"] {
 user-profile
 ##################################################
 */
+.back-button {
+    background-color: #222;
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 48px;
+    margin-top: 14px;
+    display: block;
+    width: fit-content;
+    text-transform: uppercase;
+}
+.back-button:hover {
+    color: #fff;
+}
 .profile-nav {
     display: flex;
     font-size: 16px;
@@ -904,6 +917,8 @@ admin
     border: none;
     outline: none;
     width: 100%;
+    cursor: pointer;
+    color: #337533;
 }
 .admin-body {
     border-top: 1px solid whitesmoke;
@@ -963,6 +978,7 @@ admin
     border-top: 1px solid #222;
     border-bottom: 1px solid #222;
     height: 60px;
+    font-size: 14px;
 }
 .admin-content-footer {
     height: 80px;

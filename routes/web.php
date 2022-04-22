@@ -55,6 +55,7 @@ Route::get('cartview', [UserProfile::class, 'cart']);
 
 Route::group(["middleware" => "user"], function () {
     Route::get('/user', [UserProfile::class, 'profile']);
+    Route::get('user/profiledetails', [UserProfile::class, 'profiledetails']);
     Route::get('user/account', function () {
         return view('user.account');
     });
@@ -84,6 +85,7 @@ Route::group(["middleware" => "admin"], function () {
     Route::post('admin/saveorderedit/{oid}/{pid}', [AdminController::class, 'saveitem']);
     Route::post('admin/saveorderedit/{oid}', [AdminController::class, 'ordersave']);
     Route::post('admin/updatestatus', [AdminController::class, 'updatestatus']);
+    Route::post('admin/deleteorder', [AdminController::class, 'deleteorder']);
     Route::get('adminsignout', [AdminController::class, 'signout']);
 });
 
