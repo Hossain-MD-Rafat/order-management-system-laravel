@@ -116,24 +116,24 @@
     <section class="counter-up">
         <div class="content">
             <div class="box">
-                <div class="icon"><i class="fas fa-history"></i></div>
-                <div class="counter">724</div>
-                <div class="text">Working Hours</div>
-            </div>
-            <div class="box">
                 <div class="icon"><i class="fas fa-gift"></i></div>
-                <div class="counter">508</div>
-                <div class="text">Completed Projects</div>
+                <div class="counter">580</div>
+                <div class="text">Total Orders</div>
             </div>
             <div class="box">
                 <div class="icon"><i class="fas fa-users"></i></div>
-                <div class="counter">436</div>
-                <div class="text">Happy Clients</div>
+                <div class="counter">1257</div>
+                <div class="text">Total Users</div>
             </div>
             <div class="box">
-                <div class="icon"><i class="fas fa-award"></i></div>
-                <div class="counter">120</div>
-                <div class="text">Awards Received</div>
+                <div class="icon"><i class="icon fas fa-paper-plane"></i></div>
+                <div class="counter">520</div>
+                <div class="text">Successfully Delivered</div>
+            </div>
+            <div class="box">
+                <div class="icon"><i class="fas fa-rocket"></i></div>
+                <div class="counter">85</div>
+                <div class="text">International Deliveries</div>
             </div>
     </section>
 
