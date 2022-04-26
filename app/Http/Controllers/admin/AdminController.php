@@ -21,7 +21,10 @@ class AdminController extends Controller
     public function orderedit($id)
     {
         $loggedadmin = session('loggedin_admin');
-        $order = DB::select("SELECT o.id as id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, o.shipping, o.agent_fee, p.id as pid, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE p.order_id={$id}");
+        $order = DB::select("SELECT o.id as id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, o.shipping, o.agent_fee, p.id as pid, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size, p.product_url, a.name AS address_name, a.province, a.town, a.district, a.region, a.address, a.address_2, a.post_code, a.phone
+        FROM orders AS o
+        JOIN products AS p ON o.id=p.order_id
+        JOIN address a ON a.id=o.address_id WHERE p.order_id={$id}");
         return view('admin.orderedit', ['order' => $order]);
     }
     public function updatestatus(Request $req)

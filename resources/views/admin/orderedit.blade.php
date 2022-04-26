@@ -25,7 +25,8 @@
                                     <span>Color: {{ $item->color }}</span> <br>
                                     <span>Size: {{ $item->size }}</span> <br>
                                     <span>Price: ¥{{ $item->unit_price }}</span> <br>
-                                    <span>Quantity: {{ $item->quantity }}</span>
+                                    <span>Quantity: {{ $item->quantity }}</span> <br>
+                                    <span>Product URL: {{ $item->product_url }}</span>
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -92,7 +93,15 @@
                     </form>
                 @endforeach
 
-                <div class="row d-flex mt-5">
+                <div class="d-flex justify-content-between align-items-center mt-5">
+                    <div class="address">
+                        <span class="street">{{ $order[0]->address }}</span><br>
+                        <span>{{ $order[0]->district }}</span><br>
+                        <span>{{ $order[0]->post_code . ' ' . $order[0]->town }}</span><br>
+                        <span>{{ $order[0]->province }}</span><br>
+                        <span>{{ $order[0]->region }}</span><br>
+                        <span>{{ $order[0]->phone }}</span><br>
+                    </div>
                     <div class="cart-calculation">
                         <form action="{{ url('admin/saveorderedit/' . $order[0]->id) }}" method="POST">
                             @csrf
@@ -108,7 +117,7 @@
                                     value="{{ !is_null($order[0]->agent_fee) ? $order[0]->agent_fee : '' }}">
                                 <label>Agent Fee</label>
                             </div>
-                            <div class="text-center">
+                            <div>
                                 Quantity: <span
                                     id="total-amount">{{ isset($order[0]->total_quantity) ? $order[0]->total_quantity : '' }}</span><br>
                                 <b>Total:</b> ¥<span
