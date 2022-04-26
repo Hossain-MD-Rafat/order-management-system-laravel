@@ -35,6 +35,12 @@ header {
     max-width: 100%;
     max-height: 100%;
 }
+.nav {
+    display: block;
+}
+.mobile-nav {
+    display: none;
+}
 .cart {
     position: relative;
 }
@@ -1063,27 +1069,61 @@ media query
 ##################################################
 */
 @media (max-width: 790px) {
-    .nav,
-    .nav-menu {
+    .nav {
+        display: none;
+    }
+    .mobile-nav {
+        padding: 10px 0px;
         display: block;
     }
-    .nav-menu {
+    .logo {
+        width: 80%;
+        text-align: left;
+        margin-left: -45px;
+    }
+    .mobile-nav-menu {
+        visibility: hidden;
+        transform: translateX(100%);
         position: absolute;
-        max-width: 330px;
+        max-width: 200px;
         height: 100vh;
         right: 0;
-        top: 0;
+        top: 15px;
         background: #222;
         z-index: 11;
+        transition: all 0.4s ease-in-out;
     }
-    .nav-menu li {
-        margin: 20px 0px;
+    .mobile-nav-menu.show {
+        visibility: visible;
+        transform: translateX(0%);
+    }
+    .mobile-nav-menu li {
+        margin: 22px 0px;
+        color: white;
+        list-style: none;
+    }
+    .mobile-nav-menu li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
     }
     .section-header span.back-text {
         display: none;
     }
     .menu-search {
         width: 100%;
+    }
+    .menu-bar-icon {
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        color: white;
+        font-size: 26px;
+        transition: all 0.4s ease-in-out;
+    }
+    .menu-bar-icon.show {
+        right: 202px;
     }
     .wrapper .center-line {
         left: 40px;
@@ -1102,10 +1142,6 @@ media query
     }
 }
 @media (max-width: 440px) {
-    .nav,
-    .nav-menu {
-        display: block;
-    }
     .section-header span.back-text {
         display: none;
     }

@@ -37,7 +37,6 @@
                     <img class="w-50" src="{{ url('/media/images/BBABAE_white.svg') }}" alt="bbabae logo" />
                 </a>
             </div>
-
             <ul class="nav-menu">
                 <li>
                     <form action="{{ url('producturl') }}" method="post">
@@ -60,7 +59,39 @@
                 </li>
             </ul>
         </div>
-        <div class="mobile-nav"></div>
+        <div class="content-area mobile-nav">
+            <div class="logo">
+                <a href="{{ url('/') }}">
+                    <img class="w-50" src="{{ url('/media/images/BBABAE_white.svg') }}"
+                        alt="bbabae logo" />
+                </a>
+            </div>
+            <div class="mobile-menus">
+                <div class="menu-bar-icon"><i class="fas fa-bars"></i></div>
+                <ul class="mobile-nav-menu">
+                    <li>
+                        <form action="{{ url('producturl') }}" method="post">
+                            @csrf
+                            <input type="text" placeholder="search" name="product_url" class="menu-search" />
+                        </form>
+                    </li>
+
+                    @if (!is_null(session('loggedin_user')))
+                        <li><a href="{{ url('user') }}">{{ session('loggedin_user')['username'] }}</a></li>
+                    @else
+                        <li><a href="{{ url('login') }}">Login</a></li>
+                    @endif
+                    <li><a href="">Help</a></li>
+                    <li class="nav-item cart">
+                        <a href="{{ url('cart') }}"><i class="fas fa-shopping-bag"></i></a>
+                        @if (session()->has('cart'))
+                            <div class="cart-item">{{ sizeof(session('cart')) }}</div>
+                        @endif
+                    </li>
+                </ul>
+            </div>
+
+        </div>
     </header>
     @yield('content-area')
 
@@ -150,6 +181,10 @@
                 delay: 10,
                 time: 1200
             });
+        });
+        $('.menu-bar-icon').click(function(e) {
+            $('.mobile-nav-menu').toggleClass('show');
+            $('.menu-bar-icon').toggleClass('show');
         });
     </script>
 </body>
