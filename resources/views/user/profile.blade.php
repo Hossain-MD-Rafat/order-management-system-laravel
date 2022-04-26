@@ -163,6 +163,16 @@
         </div>
     </section>
     <script>
+        var params = new window.URLSearchParams(window.location.search);
+        if (params.get('settings')) {
+            $("#profile").removeClass("active");
+            $("#settings").addClass("active");
+            $("#purchases").removeClass("active");
+            $("#profile-content-purchases").addClass("d-none");
+            $("#profile-content-profile").addClass("d-none");
+            $("#profile-content-settings").removeClass("d-none");
+        }
+
         function profileview(e) {
             if (e.id === "purchases") {
                 $("#profile").removeClass("active");

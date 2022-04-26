@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserProfile extends Controller
 {
-    public function profile()
+    public function profile(Request $req)
     {
+        if ($req->get('settings')) {
+            session()->put('prev_url', url()->previous());
+        }
         $loggeduser = session('loggedin_user');
         $address = DB::table('address')
             ->where('user_id', '=', $loggeduser['user_id'])
@@ -156,7 +159,13 @@ class UserProfile extends Controller
                     $res = DB::table('address')->insert($data);
                 }
                 if ($res >= 0) {
-                    return redirect('user/address');
+                    if (!is_null(session('prev_url'))) {
+                        $prev_url = session('prev_url');
+                        session()->forget('prev_url');
+                        return redirect($prev_url);
+                    } else {
+                        return redirect('user/address');
+                    }
                 } else {
                     return redirect()->back()->withErrors(['error' => 'Unable to save address now. Please try later']);
                 }
@@ -198,8 +207,7 @@ class UserProfile extends Controller
                 'address_id' => 'required',
             ]);
             if ($validator->fails()) {
-                $errors = $validator->errors();
-                return redirect()->back()->withErrors($errors);
+                return redirect()->back()->withErrors(['error' => 'You must provide shipping address']);
             } else {
                 $loggeduser = session('loggedin_user');
                 $total = 0;
@@ -213,7 +221,8 @@ class UserProfile extends Controller
                     'user_id' => $loggeduser['user_id'],
                     'total_amount' => $total,
                     'items_count' => $itemsCount,
-                    'total_quantity' => $totalQuantity
+                    'total_quantity' => $totalQuantity,
+                    'address_id' => $req->post('address_id')
                 );
                 $order_id = DB::table('orders')->insertGetId($orderData);
                 foreach (session('cart') as $key => $item) {

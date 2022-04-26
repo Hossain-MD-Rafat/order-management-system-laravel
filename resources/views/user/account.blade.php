@@ -31,12 +31,15 @@
                         <a class="signout-btn" href="{{ url('user/signout') }}">Sign out</a>
                     </div>
                 </div>
+                @php
+                    
+                @endphp
                 <div class="telephone-change d-none">
                     <div role="button" class="account-home"><i class="fas fa-long-arrow-alt-left"></i></div>
                     <h2 class="mb-4 text-uppercase">Change telephone</h2>
                     <span>If you want to change your current phone number. Please provide the new <br>phone number with your
                         current password</span><br><br>
-                    <span>Your current phone number is <b></b></span>
+                    <span>Your current phone number is <b>{{session('loggedin_user')['phone']}}</b></span>
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <form method="POST" action="{{ url('changeaccountinfo') }}">

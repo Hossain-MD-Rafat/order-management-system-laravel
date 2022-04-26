@@ -237,14 +237,25 @@ class Home extends Controller
                     ->where('email', '=', $req->post('email'))
                     ->orWhere('username', '=', $req->post('email'))
                     ->get();
-                if (Hash::check($req->post('password'), $user[0]->password)) {
-                    $user = array(
-                        'user_id' => $user[0]->id,
-                        'username' => $user[0]->username,
-                        'email' => $user[0]->email,
-                    );
-                    session()->put('loggedin_user', $user);
-                    return redirect('/user');
+                if (!$user->isEmpty()) {
+                    if (Hash::check($req->post('password'), $user[0]->password)) {
+                        $user = array(
+                            'user_id' => $user[0]->id,
+                            'username' => $user[0]->username,
+                            'email' => $user[0]->email,
+                            'phone' => $user[0]->phone,
+                        );
+                        session()->put('loggedin_user', $user);
+                        if (!is_null(session('prev_url'))) {
+                            $prev_url = session('prev_url');
+                            session()->forget('prev_url');
+                            return redirect($prev_url);
+                        } else {
+                            return redirect('/user');
+                        }
+                    } else {
+                        return redirect()->back()->withErrors(['error' => 'User not found!']);
+                    }
                 } else {
                     return redirect()->back()->withErrors(['error' => 'User not found!']);
                 }
@@ -257,18 +268,21 @@ class Home extends Controller
             $validator = Validator::make($req->all(), [
                 'email' => 'required|email',
                 'name' => 'required|min:2',
+                'phone' => 'required|min:5',
                 'password' => 'required|min:6',
             ]);
             if ($validator->fails()) {
                 $errors = $validator->errors();
                 return redirect()->back()->withErrors($errors);
             } else {
+                $namec = explode(' ', $req->post('name'));
                 try {
                     $query = DB::table('users')->insert([
                         "email" => $req->post('email'),
                         "name" => $req->post('name'),
+                        "phone" => $req->post('phone'),
                         "password" => bcrypt($req->post('password')),
-                        "username" => $req->post('name') . strtotime("now")
+                        "username" => $namec[0] . strtotime("now")
                     ]);
                     if ($query) {
                         return redirect('/login')->with('login_msg', 'You have successfully registered!');
@@ -295,16 +309,20 @@ class Home extends Controller
                     ->where('email', '=', $req->post('email'))
                     ->orWhere('username', '=', $req->post('email'))
                     ->get();
-                if (Hash::check($req->post('password'), $user[0]->password)) {
-                    $user = array(
-                        'admin_id' => $user[0]->id,
-                        'adminname' => $user[0]->username,
-                        'email' => $user[0]->email,
-                    );
-                    session()->put('loggedin_admin', $user);
-                    return redirect('/admin');
+                if (!$user->isEmpty()) {
+                    if (Hash::check($req->post('password'), $user[0]->password)) {
+                        $user = array(
+                            'admin_id' => $user[0]->id,
+                            'adminname' => $user[0]->username,
+                            'email' => $user[0]->email,
+                        );
+                        session()->put('loggedin_admin', $user);
+                        return redirect('/admin');
+                    } else {
+                        return redirect()->back()->withErrors(['error' => 'Invalid username or password!']);
+                    }
                 } else {
-                    return redirect()->back()->withErrors(['error' => 'Admin not found!']);
+                    return redirect()->back()->withErrors(['error' => 'Invalid username or password!']);
                 }
             }
         }
@@ -327,37 +345,3 @@ class Home extends Controller
         }
     }
 }
-
-//$url = 'https://shop317730822.v.weidian.com/item.html?itemID=4412176101&wfr=c&ifr=itemdetail&spider_token=a986&share_relation=39c5aa4489fba769_1459959101_1';
-//https://shop317730822.v.weidian.com/item.html?itemID=4474626851&wfr=c&ifr=itemdetail&share_relation=39c5aa4489fba769_1459959101_1&spider_token=9a28
-//https://shop317730822.v.weidian.com/item.html?itemID=3922745323&wfr=c&ifr=itemdetail&spider_token=521b&share_relation=39c5aa4489fba769_1459959101_1
-
-
-//"https://item.taobao.com/item.htm?id=585643911906&ali_refid=a3_430620_1006:1109908262:N:PBSQ%2FXgCIJAZ6Cv7KLZNKg%3D%3D:c6317ca408cdc442be867036893d688e&ali_trackid=1_c6317ca408cdc442be867036893d688e&spm=a230r.1.14.11#detail";
-//"https://item.taobao.com/item.htm?spm=a230r.1.999.182.61e8523c3oSY26&id=650085739344&ns=1#detail";
-
-
- // $url1 = 'https://item.taobao.com/item.htm?spm=a230r.1.999.182.61e8523c3oSY26&id=650085739344&ns=1#detail';
-//$url = 'https://shop317730822.v.weidian.com/item.html?itemID=4412176101&wfr=c&ifr=itemdetail&spider_token=a986&share_relation=39c5aa4489fba769_1459959101_1';
-
-// $page1 = $client->request('GET', $url1);
-// $a = $page1->filter('.tb-icon')->text();
-// print_r($a); 
-
-//https://thor.weidian.com/detail/getItemSkuInfo/1.0?param=%7B%22itemId%22%3A%224474626851%22%7D&wdtoken=e5739b54&_=1648583787602
-
-// $validator = Validator::make($req->all(), [
-        //     'title' => 'required',
-        //     'url' => 'required',
-        //     'price' => 'required',
-        //     'quantity' => 'required|numeric|gt:0',
-        //     'delivery_days' => 'required|numeric|gt:0',
-        //     'site' => 'required',
-        //     'banner' => 'required',
-        //     'details' => 'required'
-        // ]);
-
-        // if ($validator->fails()) {
-        //     $product = session('product');
-        //     return view('product_view', array('product' => $product, 'error' => "Quantuty and delivery days should be a valid number"));
-        // }

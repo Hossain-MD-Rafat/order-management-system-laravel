@@ -170,7 +170,7 @@
 
     <!-- faq -->
     <section class="faq container-fluid">
-        <div class="col-md-8 offset-2 p-4">
+        <div class="col-md-8 offset-md-2 p-4">
             <div class="faq-item" onclick="faq(this)">
                 <div class="question">How to use the website?</div>
                 <p class="answer d-none">

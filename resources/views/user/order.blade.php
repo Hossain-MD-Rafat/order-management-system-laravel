@@ -4,12 +4,6 @@
     <section class="product-view container">
         <div class="row">
             <div class="col-md-10 offset-md-1">
-                <div class="product-row mb-4">
-                    <div class="w-20 order-title text-uppercase">Product Image</div>
-                    <div class="product-details order-title text-uppercase">Product Details</div>
-                    <div class="product-conditions order-title text-uppercase">Product Conditions</div>
-                    <div class="uploaded-images order-title text-uppercase">Uploaded Images</div>
-                </div>
                 @foreach ($order as $item)
                     <div class="product-row mb-4">
                         <div class="product-image">

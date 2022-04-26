@@ -17,6 +17,7 @@ class UserAuth
     public function handle(Request $request, Closure $next)
     {
         if (is_null(session('loggedin_user'))) {
+            session()->put('prev_url', url()->previous());
             return redirect('login');
         }
         return $next($request);

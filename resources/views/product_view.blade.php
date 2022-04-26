@@ -5,11 +5,11 @@
         <div class="row">
             <div class="col-md-7 d-flex justify-content-between">
                 <div class="thumb-image">
-                    <img class="w-100" src="{{ $product->banner }}" alt="" />
+                    <img class="w-100" src="{{ $product->banner }}" alt="" id="banner-image" />
                 </div>
                 <div class="other-image">
                     @foreach ($product->other_images as $item)
-                        <img class="w-100 mb-1" src="{{ $item }}" alt="" />
+                        <img class="w-100 mb-1" src="{{ $item }}" alt="" onclick="selectimage(this)" />
                     @endforeach
                 </div>
             </div>
@@ -22,10 +22,12 @@
                     <h4 class="option-label">Color</h4>
                     @foreach ($product->color as $key => $item)
                         @if ($key === 0)
-                            <div class="option-item active" id="color" onclick="selectOption(this)">{{ $item->attrValue }}
+                            <div class="option-item active" id="color" onclick="selectOption(this, '{{ $item->img }}')">
+                                {{ $item->attrValue }}
                             </div>
                         @else
-                            <div class="option-item" id="color" onclick="selectOption(this)">{{ $item->attrValue }}
+                            <div class="option-item" id="color" onclick="selectOption(this, '{{ $item->img }}')">
+                                {{ $item->attrValue }}
                             </div>
                         @endif
                     @endforeach
@@ -34,10 +36,12 @@
                     <h4 class="option-label">Size</h4>
                     @foreach ($product->size as $key => $item)
                         @if ($key === 0)
-                            <div class="option-item active" id="size" onclick="selectOption(this)">{{ $item->attrValue }}
+                            <div class="option-item active" id="size" onclick="selectOption(this, '{{ $item->img }}')">
+                                {{ $item->attrValue }}
                             </div>
                         @else
-                            <div class="option-item" id="size" onclick="selectOption(this)">{{ $item->attrValue }}
+                            <div class="option-item" id="size" onclick="selectOption(this, 'none')">
+                                {{ $item->attrValue }}
                             </div>
                         @endif
                     @endforeach
@@ -60,12 +64,18 @@
         <input type="hidden" name="" id="product-size" value="{{ $product->size[0]->attrValue }}">
     </section>
     <script>
-        function selectOption(e) {
+        function selectimage(e) {
+            $('#banner-image').attr("src", $(e).attr('src'));
+        }
+
+        function selectOption(e, img) {
             e.parentNode.querySelector('.option-item.active').classList.remove('active');
             e.classList.add('active');
             let id = e.getAttribute('id');
             if (id === 'color') {
                 $('#product-color').val(e.innerText);
+                $('#product-banner').val(img);
+                $('#banner-image').attr("src", img);
             }
             if (id === 'size') {
                 $('#product-size').val(e.innerText);
