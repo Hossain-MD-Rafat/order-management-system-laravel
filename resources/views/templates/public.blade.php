@@ -102,7 +102,7 @@
                 <div class="row">
                     <div class="text-center text-uppercase mb-4 text-dark">join our newsletter</div>
                     <div class="footer-social-media">
-                        <a href="">Titok</a>
+                        <a href="">Tiktok</a>
                         <a href="">instragram</a>
                         <a href="">facebook</a>
                         <a href="">twitter</a>

@@ -143,7 +143,8 @@ class Home extends Controller
                                 foreach ($i->values as $key => $val) {
                                     $s_item = array(
                                         "attrId" => $val->vid,
-                                        "attrValue" => $val->name
+                                        "attrValue" => $val->name,
+                                        "img" => ""
                                     );
                                     $size[$key] = (object)$s_item;
                                 }

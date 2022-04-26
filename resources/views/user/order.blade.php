@@ -56,14 +56,37 @@
                     </div>
                 @endforeach
 
-                <div class="row d-flex mt-5">
+                <div class="d-flex justify-content-between align-items-center mt-5">
+                    <div class="address">
+                        <span class="street">{{ $order[0]->address }}</span><br>
+                        <span>{{ $order[0]->district }}</span><br>
+                        <span>{{ $order[0]->post_code . ' ' . $order[0]->town }}</span><br>
+                        <span>{{ $order[0]->province }}</span><br>
+                        <span>{{ $order[0]->region }}</span><br>
+                        <span>{{ $order[0]->phone }}</span><br>
+                    </div>
                     <div class="cart-calculation">
-                        <div class="text-center">
+                        <div>
                             Quantity: <span id="total-amount">{{ $order[0]->total_quantity }}</span><br>
-                            <b>Total:</b> ¥<span id="total-amount">{{ $order[0]->total_amount }}</span><br>
+                            @php
+                                $total_with_fee = $order[0]->total_amount;
+                                if (!Is_null($order[0]->shipping)) {
+                                    $total_with_fee += $order[0]->shipping;
+                                }
+                                if (!Is_null($order[0]->agent_fee)) {
+                                    $total_with_fee += $order[0]->agent_fee;
+                                }
+                            @endphp
+                            @if (!Is_null($order[0]->shipping))
+                                Shipping: ¥<span id="total-amount">{{ $order[0]->shipping }}</span><br>
+                            @endif
+                            @if (!Is_null($order[0]->agent_fee))
+                                Agent Fee: ¥<span id="total-amount">{{ $order[0]->agent_fee }}</span><br>
+                            @endif
+                            <b>Total:</b> ¥<span id="total-amount">{{ $total_with_fee }}</span><br>
                         </div>
                         <div>
-                            <a href="{{ url('user') }}" class="add-to-cart">Back</a>
+                            <button name="order_save" class="add-to-cart p-2" value="true">Continue Payment</button>
                         </div>
                     </div>
                 </div>

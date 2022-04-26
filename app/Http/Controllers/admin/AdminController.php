@@ -21,7 +21,7 @@ class AdminController extends Controller
     public function orderedit($id)
     {
         $loggedadmin = session('loggedin_admin');
-        $order = DB::select("SELECT o.id as id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, p.id as pid, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE p.order_id={$id}");
+        $order = DB::select("SELECT o.id as id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, o.shipping, o.agent_fee, p.id as pid, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE p.order_id={$id}");
         return view('admin.orderedit', ['order' => $order]);
     }
     public function updatestatus(Request $req)
@@ -72,17 +72,23 @@ class AdminController extends Controller
     }
     public function ordersave($id, Request $req)
     {
-        if ($req->post('item_save')) {
+        if ($req->post('order_save')) {
             $validator = Validator::make($req->all(), [
-                'uploaded_images.*' => 'image|max:12000',
+                'shipping_charge' => 'required',
+                'agent_fee' => 'required'
             ]);
             if ($validator->fails()) {
                 $errors = $validator->errors();
                 return redirect()->back()->withErrors($errors);
             } else {
-                // print_r($req->post());
-                // print_r($req->file());
-                $data = array();
+                $data = array(
+                    'shipping' => $req->post('shipping_charge'),
+                    'agent_fee' => $req->post('agent_fee')
+                );
+                $res = DB::table('orders')
+                    ->where('id', '=', $id)
+                    ->update($data);
+                return redirect('admin/orderedit/' . $id);
             }
         }
     }

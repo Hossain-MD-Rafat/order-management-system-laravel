@@ -249,12 +249,17 @@ class UserProfile extends Controller
     public function order($id)
     {
         $loggeduser = session('loggedin_user');
-        $order = DB::select("SELECT o.id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size FROM orders AS o JOIN products AS p ON o.id=p.order_id WHERE o.user_id={$loggeduser['user_id']} and p.order_id={$id}");
+        $order = DB::select("SELECT o.id, o.date, o.total_amount, o.delivery_status, o.total_amount, o.total_quantity, o.shipping, o.agent_fee, p.name, p.unit_price, p.image, p.description, p.admin_image, p.quantity, p.color, p.size, a.name AS address_name, a.province, a.town, a.district, a.region, a.address, a.address_2, a.post_code, a.phone
+        FROM orders AS o
+        JOIN products AS p ON o.id=p.order_id
+        JOIN address a ON a.id=o.address_id
+        WHERE o.user_id={$loggeduser['user_id']} and p.order_id={$id}");
         return view('user.order', ['order' => $order]);
     }
     public function signout()
     {
         session()->forget('loggedin_user');
+        session()->forget('prev_url');
         return redirect('user');
     }
     // public function cart()

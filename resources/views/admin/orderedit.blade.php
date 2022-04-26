@@ -98,12 +98,14 @@
                             @csrf
                             <div class="login-form-group">
                                 <input type="number" step="0.0001" required class="login-input" name="shipping_charge"
-                                    placeholder=" ">
+                                    placeholder=" "
+                                    value="{{ !is_null($order[0]->shipping) ? $order[0]->shipping : '' }}">
                                 <label>Shipping Charge</label>
                             </div>
                             <div class="login-form-group">
                                 <input type="number" step="0.0001" required class="login-input" name="agent_fee"
-                                    placeholder=" ">
+                                    placeholder=" "
+                                    value="{{ !is_null($order[0]->agent_fee) ? $order[0]->agent_fee : '' }}">
                                 <label>Agent Fee</label>
                             </div>
                             <div class="text-center">
@@ -113,7 +115,7 @@
                                     id="total-amount">{{ isset($order[0]->total_amount) ? $order[0]->total_amount : '' }}</span><br>
                             </div>
                             <div class="d-flex">
-                                <a href="{{ url('user') }}" class="add-to-cart">Back</a>
+                                <a href="{{ url('admin') }}" class="add-to-cart">Back</a>
                                 <button type="submit" name="order_save" class="add-to-cart ml-2" value="true">Save</button>
                             </div>
                         </form>
