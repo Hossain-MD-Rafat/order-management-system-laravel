@@ -15,7 +15,11 @@ class AdminController extends Controller
         $orders = DB::table('orders')
             ->orderBy('id', 'desc')
             ->paginate(12);
-        return view('admin.dashboard', array('orders' => $orders));
+        $queries = DB::table('customer_query')
+            ->orderBy('status', 'asc')
+            ->orderBy('id', 'desc')
+            ->paginate(12);
+        return view('admin.dashboard', array('orders' => $orders, 'queries' => $queries));
     }
 
     public function orderedit($id)
@@ -33,6 +37,19 @@ class AdminController extends Controller
             $affected = DB::table('orders')
                 ->where('id', $req->order_id)
                 ->update(['delivery_status' => $req->status]);
+            if ($affected > 0) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 400]);
+            }
+        }
+    }
+    public function updatequerystatus(Request $req)
+    {
+        if ($req->post('status_change')) {
+            $affected = DB::table('customer_query')
+                ->where('id', $req->query_id)
+                ->update(['status' => $req->status]);
             if ($affected > 0) {
                 return response()->json(['status' => 200]);
             } else {

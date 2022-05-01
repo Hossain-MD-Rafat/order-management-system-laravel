@@ -29,10 +29,10 @@
                             <span>Jhon Doe <br />
                                 <small>Admin</small></span>
                             <div class="admin-right-nav">
-                                <div class="admin-right-nav-item">New Orders</div>
+                                <div class="admin-right-nav-item" id="new-orders">New Orders</div>
                                 <div class="admin-right-nav-item">Pending Orders</div>
                                 <div class="admin-right-nav-item">Completed Orders</div>
-                                <div class="admin-right-nav-item">Faq</div>
+                                <div class="admin-right-nav-item" id="user-query">Users' Queries</div>
                             </div>
                             <div class="admin-bottom">
                                 <div><a href="{{ url('admin/changeadminpass') }}"><i
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8 admin-content">
+                    <div class="col-md-8 admin-content" id="orders">
                         <div class="row admin-content-header">
                             <div class="col-md-1 text-center">O/N</div>
                             <div class="col-md-2 text-center">Order Date</div>
@@ -96,7 +96,39 @@
                                 </div>
                             </div>
                         @endforeach
-
+                        <div class="admin-content-footer row">
+                            {{ $orders->links() }}
+                        </div>
+                    </div>
+                    <div class="col-md-8 admin-content d-none" id="queries">
+                        <div class="row admin-content-header">
+                            <div class="col-md-2 text-center">Name</div>
+                            <div class="col-md-2 text-center">Email</div>
+                            <div class="col-md-2 text-center">Subject</div>
+                            <div class="col-md-4 text-center">Message</div>
+                            <div class="col-md-2 text-center">Status</div>
+                        </div>
+                        @foreach ($queries as $item)
+                            <div class="admin-content-body row d-flex align-content-center">
+                                <div class="col-md-2 text-center">{{ $item->name }}</div>
+                                <div class="col-md-2 text-center">{{ $item->email }}</div>
+                                <div class="col-md-2 text-center">{{ $item->subject }}</div>
+                                <div class="col-md-4 text-center">
+                                    {{ $item->message }}
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <div class="text-success">
+                                        <select name="" id="order-status" class="text-uppercase"
+                                            onchange="querystatuschange(this, {{ $item->id }})">
+                                            <option @if ($item->status == 0) selected="selected" @endif value="0">
+                                                Unread</option>
+                                            <option @if ($item->status == 1) selected="selected" @endif value="1">
+                                                Read</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                         <div class="admin-content-footer row">
                             {{ $orders->links() }}
                         </div>
@@ -148,6 +180,36 @@
                 }
             });
         }
+
+        function querystatuschange(e, id) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: "POST",
+                url: "{{ url('admin/updatequerystatus') }}",
+                data: {
+                    'status_change': true,
+                    "query_id": id,
+                    "status": e.value
+                },
+                cache: false,
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function() {
+
+                }
+            });
+        }
+        $('#new-orders').click(() => {
+            $('#orders').removeClass('d-none');
+            $('#queries').addClass('d-none');
+        });
+        $('#user-query').click(() => {
+            $('#orders').addClass('d-none');
+            $('#queries').removeClass('d-none');
+        });
 
         function deleteorder(e, id) {
             $('#confirm').click(() => {

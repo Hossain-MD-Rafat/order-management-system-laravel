@@ -85,6 +85,7 @@ Route::group(["middleware" => "admin"], function () {
     Route::post('admin/saveorderedit/{oid}/{pid}', [AdminController::class, 'saveitem']);
     Route::post('admin/saveorderedit/{oid}', [AdminController::class, 'ordersave']);
     Route::post('admin/updatestatus', [AdminController::class, 'updatestatus']);
+    Route::post('admin/updatequerystatus', [AdminController::class, 'updatequerystatus']);
     Route::post('admin/deleteorder', [AdminController::class, 'deleteorder']);
     Route::get('adminsignout', [AdminController::class, 'signout']);
 });

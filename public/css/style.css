@@ -1159,6 +1159,9 @@ media query
     .input input {
         width: 100%;
     }
+    .login-container form {
+        width: 70%;
+    }
 }
 @media (max-width: 440px) {
     .footer-social-media {

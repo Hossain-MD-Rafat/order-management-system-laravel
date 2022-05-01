@@ -5,38 +5,42 @@
             @php
                 $total = 0;
             @endphp
-            @foreach (session('cart') as $item)
-                @php
-                    $total += $item['price'] * $item['quantity'];
-                @endphp
-                <div class="col-md-4">
-                    <h2 class="cart-product-title">{{ $item['title'] }}</h2>
-                    <div class="d-flex justify-content-between">
-                        <div class="cart-item-thumb">
-                            <img class="w-100" src="{{ $item['banner'] }}" alt="" />
-                        </div>
-                        <div class="cart-item-other">
-                            <div class="pd-option">
-                                <span class="cart-product-details">{{ $item['color'] }}</span><br>
-                                <span class="cart-product-details">{{ $item['size'] }}</span> <br>
-                                <label class="cart-product-details" for="">Quantity</label>
-                                <div class="d-flex">
-                                    <div onclick="minuscounter(this, {{ $item['id'] }}, {{ $item['price'] }})"
-                                        class="qnt-controll" role="button">-</div>
-                                    <input type="number" id="quantity" class="cart-quantity" name="quantity"
-                                        value="{{ $item['quantity'] }}" required />
-                                    <div onclick="pluscounter(this, {{ $item['id'] }}, {{ $item['price'] }})"
-                                        class="qnt-controll" role="button">+</div>
+            @if (session()->has('cart'))
+                @foreach (session('cart') as $item)
+                    @php
+                        $total += $item['price'] * $item['quantity'];
+                    @endphp
+                    <div class="col-md-4">
+                        <h2 class="cart-product-title">{{ $item['title'] }}</h2>
+                        <div class="d-flex justify-content-between">
+                            <div class="cart-item-thumb">
+                                <img class="w-100" src="{{ $item['banner'] }}" alt="" />
+                            </div>
+                            <div class="cart-item-other">
+                                <div class="pd-option">
+                                    <span class="cart-product-details">{{ $item['color'] }}</span><br>
+                                    <span class="cart-product-details">{{ $item['size'] }}</span> <br>
+                                    <label class="cart-product-details" for="">Quantity</label>
+                                    <div class="d-flex">
+                                        <div onclick="minuscounter(this, {{ $item['id'] }}, {{ $item['price'] }})"
+                                            class="qnt-controll" role="button">-</div>
+                                        <input type="number" id="quantity" class="cart-quantity" name="quantity"
+                                            value="{{ $item['quantity'] }}" required />
+                                        <div onclick="pluscounter(this, {{ $item['id'] }}, {{ $item['price'] }})"
+                                            class="qnt-controll" role="button">+</div>
+                                    </div>
+                                </div>
+                                <div class="cart-product-details">¥<span>{{ $item['price'] }}</span></div>
+                                <div class="cart-product-details text-danger" role="button" data-bs-toggle="modal"
+                                    data-bs-target="#cart-delete"
+                                    onclick="deletcartitem(this, {{ $item['id'] }}, {{ $item['price'] }})">Delete
                                 </div>
                             </div>
-                            <div class="cart-product-details">¥<span>{{ $item['price'] }}</span></div>
-                            <div class="cart-product-details text-danger" role="button" data-bs-toggle="modal"
-                                data-bs-target="#cart-delete"
-                                onclick="deletcartitem(this, {{ $item['id'] }}, {{ $item['price'] }})">Delete</div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @endif
+
         </div>
         <div class="row d-flex mt-5">
             <div class="cart-calculation">
